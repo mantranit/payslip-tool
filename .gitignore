@@ -1,0 +1,5 @@
+*.xlsx
+*.csv
+payslips
+.DS_Store
+__pycache__
