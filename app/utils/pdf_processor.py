@@ -1,6 +1,7 @@
 import os
 import pathlib
 import pdfkit
+import utils
 from jinja2 import Template
 from jinja2.filters import FILTERS, pass_environment
 from PyPDF2 import PdfFileReader, PdfFileWriter
@@ -15,7 +16,8 @@ def currency_format(environment, value, attribute=None):
     return "{:,.0f}".format(value)
 
 def generate(path, filename, data):
-    pathFile = pathlib.Path('/'.join((path, filename)))
+    inputFile = '/'.join((path, filename))
+    pathFile = pathlib.Path(inputFile)
     pathFile.parent.mkdir(parents=True, exist_ok=True)
 
     FILTERS["currency_format"] = currency_format
@@ -23,18 +25,21 @@ def generate(path, filename, data):
     rendered = jinja2_template.render(**data)
 
     pdf = pdfkit.from_string(rendered, pathFile)
-    print(pdf)
+    if pdf:
+        data['logger'].info('Generate data to file {} successfully.'.format(inputFile))
+    else:
+        data['logger'].error('Generate data to file {} fail.'.format(inputFile))
 
-def set_password(path, filenameTmp, filename, password):
-    inputFile = '/'.join((path, filenameTmp))
-    outputFile = '/'.join((path, filename))
+def set_password(path, filename, filenameTmp, data):
+    inputFile = '/'.join((path, filename))
+    outputFile = '/'.join((path, filenameTmp))
     with open(inputFile, "rb") as in_file:
         input_pdf = PdfFileReader(in_file)
 
         output_pdf = PdfFileWriter()
         output_pdf.appendPagesFromReader(input_pdf)
-        output_pdf.encrypt(password)
+        output_pdf.encrypt(data['person']['password'])
 
         with open(outputFile, "wb") as out_file:
             output_pdf.write(out_file)
-            os.remove(inputFile)
+            data['logger'].info('Encript file {} successfully.'.format(inputFile))
