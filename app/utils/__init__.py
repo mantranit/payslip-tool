@@ -4,10 +4,10 @@ import string
 from datetime import datetime
 from slugify import slugify
 
-def get_logger():
+def get_logger(fileCSV, date_time):
     Log_Format = "%(levelname)s %(asctime)s - %(message)s"
 
-    logging.basicConfig(filename = "logfile.log",
+    logging.basicConfig(filename = "payslips/{}__{}.log".format(date_time.strftime('%Y%m'), fileCSV),
                         filemode = "a",
                         format = Log_Format, 
                         level = logging.DEBUG)

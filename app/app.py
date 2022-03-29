@@ -7,11 +7,11 @@ import utils
 from utils import send_mail
 from utils import pdf_processor
 
-logger = utils.get_logger()
-
 def build_payslip():
     date_time = utils.input_date_time()
-    with open("Bang_Luong_Mau.csv", "r") as f:
+    fileCSV = input('Nhap ten file:')
+    logger = utils.get_logger(fileCSV, date_time)
+    with open(fileCSV, "r") as f:
         reader = csv.reader(f, delimiter="\t")
         for i, line in enumerate(reader):
             row = line[0].split(';')
