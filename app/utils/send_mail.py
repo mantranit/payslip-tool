@@ -13,7 +13,7 @@ def get_template_email():
 
 def send_mail(path, filename, data):
     jinja2_template = Template(get_template_email())
-    subject = "PAYSLIP " + datetime.today().strftime('%m.%Y')
+    subject = "PAYSLIP " + data['currentTime']['date_time'].strftime('%m.%Y')
     body = jinja2_template.render(**data)
     sender_email = "paul.tran@watasolutions.com"
     receiver_email = data['person']['email']
@@ -53,5 +53,9 @@ def send_mail(path, filename, data):
     with smtplib.SMTP("mail.watasolutions.com", 587) as server:
         server.login(sender_email, password)
         sent = server.sendmail(sender_email, [receiver_email], message.as_string())
-        print(sent)
+        if hasattr(sent, 'error'):
+            data['logger'].error('Sent mail to {} fail.'.format(receiver_email))
+        else:
+            data['logger'].info('Sent mail to {} successfully.'.format(receiver_email))
         server.quit()
+        os.remove(inputFile)
