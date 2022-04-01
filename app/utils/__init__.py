@@ -7,7 +7,7 @@ from slugify import slugify
 def get_logger(fileCSV, date_time):
     Log_Format = "%(levelname)s %(asctime)s - %(message)s"
 
-    logging.basicConfig(filename = "payslips/{}__{}.log".format(date_time.strftime('%Y%m'), fileCSV),
+    logging.basicConfig(filename = "{}__{}.log".format(date_time.strftime('%Y%m'), fileCSV),
                         filemode = "a",
                         format = Log_Format, 
                         level = logging.DEBUG)
@@ -15,8 +15,8 @@ def get_logger(fileCSV, date_time):
     return logging.getLogger()
 
 def input_date_time():
-    month = input('Nhap thang:')
-    year = input('Nhap nam:')
+    month = input('Nhap thang: ')
+    year = input('Nhap nam: ')
     return datetime.strptime('/'.join(('1', month, year)), '%d/%m/%Y')
 
 def get_random_string(n):
@@ -29,30 +29,34 @@ def get_list_words(data):
         data['currentTime']['date_time'].strftime('%m%Y')
     ]
 
+def currency_format(value):
+    value = float(value)
+    return "{:,.0f}".format(value)
+
 def get_data(row, password, date_time, logger):
     return {
         'logger': logger,
         'person': {
-            'email': row[27],
             'password': password,
-            'fullName': row[3],
-            'workingDays': row[7],
-            'leaveDays': row[8],
-            'totalWorkingDays': row[9],
-            'grossSalary': row[17],
-            'responsibilityAllowance': row[10],
-            'parkingAllowance': row[16],
-            'bonus': row[13],
+            'email': row['Email'],
+            'fullName': row['Tên'],
+            'workingDays': row['Ngày công thực tế'],
+            'leaveDays': row['Ngày phép đã dùng trong tháng'],
+            'totalWorkingDays': row['Tổng ngày công'],
+            'grossSalary': currency_format(row['Tổng thu nhập']),
+            'responsibilityAllowance': currency_format(row['Phụ cấp trách nhiệm']),
+            'parkingAllowance': currency_format(row['Phí gửi xe']),
+            'bonus': currency_format(row['Bonus']),
             'advance': 0,
-            'otherAllowance': row[14],
-            'overtimePay': row[12],
-            'totalSalary': row[18],
-            'insurance': row[20],
-            'incomeTax': row[22],
-            'refund': row[15],
-            'netAmount': row[23],
+            'otherAllowance': 0,
+            'overtimePay': currency_format(row['Lương ngoài giờ']),
+            'totalSalary': currency_format(row['Lương Chính']),
+            'insurance': currency_format(row['Trừ tiền BHXH, BHYT, BHTN (10.5% x 4.729.400đ)']),
+            'incomeTax': currency_format(row['Tiền thuế TNCN']),
+            'refund': 0,
+            'netAmount': currency_format(row['Tổng Thực nhận']),
             'annualLeave': 0,
-            'remainingLeave': row[26],
+            'remainingLeave': row['Tổng ngày phép còn lại'],
         },
         'currentTime': {
             'date_time': date_time,

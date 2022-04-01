@@ -3,24 +3,19 @@ import pathlib
 import pdfkit
 import utils
 from jinja2 import Template
-from jinja2.filters import FILTERS, pass_environment
+# from jinja2.filters import FILTERS, pass_environment
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
 def get_template_pdf():
     with open("templates/payslip.html", 'r', encoding='UTF-8') as file:
         return file.read()
 
-@pass_environment
-def currency_format(environment, value, attribute=None):
-    value = float(value)
-    return "{:,.0f}".format(value)
-
 def generate(path, filename, data):
     inputFile = '/'.join((path, filename))
     pathFile = pathlib.Path(inputFile)
     pathFile.parent.mkdir(parents=True, exist_ok=True)
 
-    FILTERS["currency_format"] = currency_format
+    # FILTERS["currency_format"] = currency_format
     jinja2_template = Template(get_template_pdf())
     rendered = jinja2_template.render(**data)
 
