@@ -1,2 +1,2 @@
-# Solfware
-- Need https://wkhtmltopdf.org/downloads.html
+## Solfware
+- Need to install [wkhtmltopdf](https://wkhtmltopdf.org/downloads.html)
