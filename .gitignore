@@ -4,3 +4,5 @@ payslips
 .DS_Store
 __pycache__
 *.log
+node_modules
+build
