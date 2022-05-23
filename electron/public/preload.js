@@ -9,13 +9,20 @@ contextBridge.exposeInMainWorld("appAPI", {
       if (response.canceled) {
         return;
       }
-      const pyshell = new PythonShell(`${process.cwd()}/python/import.py`, { args: [response.filePaths[0]] });
-      pyshell.on('message', function (data) {
-        callbackSuccess(data);
+      PythonShell.run(`${process.cwd()}/python/import.py`, { args: [response.filePaths[0]] }, (err, results) => {
+        if (err) {
+          return callbackError(err);
+        }
+        callbackSuccess(results);
       });
-      pyshell.on('error', function (error) {
-        callbackError(error)
-      });
+    });
+  },
+  getAll: (sql, callbackSuccess, callbackError) => {
+    PythonShell.run(`${process.cwd()}/python/fetch.py`, { args: [sql] }, (err, results) => {
+      if (err) {
+        return callbackError(err);
+      }
+      callbackSuccess(results);
     });
   }
 });

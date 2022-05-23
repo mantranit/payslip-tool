@@ -1,6 +1,6 @@
 const path = require("path");
 
-const { app, BrowserWindow } = require("electron");
+const { app, Menu, BrowserWindow } = require("electron");
 const isDev = require("electron-is-dev");
 
 // Conditionally include the dev tools installer to load React Dev Tools
@@ -54,6 +54,31 @@ app.whenReady().then(() => {
       .then(name => console.log(`Added Extension:  ${name}`))
       .catch(error => console.log(`An error occurred: , ${error}`));
   }
+
+  const isMac = process.platform === 'darwin';
+  const template = [
+    {
+      label: 'File',
+      submenu: [
+        isMac ? { role: 'close' } : { role: 'quit' }
+      ]
+    },
+    {
+      label: 'View',
+      submenu: isDev ? [
+        { role: 'reload' },
+        { role: 'forceReload' },
+        { role: 'toggleDevTools' },
+        { type: 'separator' },
+        { role: 'togglefullscreen' }
+      ] : [
+        { role: 'reload' },
+        { role: 'togglefullscreen' }
+      ]
+    },
+  ];
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

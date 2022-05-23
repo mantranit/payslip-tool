@@ -7,14 +7,21 @@
   "homepage": "./",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.8.0",
+    "@mui/material": "^5.8.0",
+    "@mui/x-data-grid": "^5.11.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^14.2.0",
     "electron-is-dev": "^2.0.0",
     "electron-squirrel-startup": "^1.0.0",
+    "node-sass": "^7.0.1",
     "python-shell": "^3.0.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1"
   },
   "scripts": {
@@ -25,7 +32,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "package": "react-scripts build && electron-forge package",
-    "make": "react-scripts build && electron-forge make"
+    "make": "react-scripts build && electron-forge make",
+    "rebuild": "electron-rebuild -f -w sqlite3"
   },
   "eslintConfig": {
     "extends": "react-app"

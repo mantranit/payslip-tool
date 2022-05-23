@@ -1,14 +1,14 @@
+import os
+import sqlite3
 import sys
 import math
 import pandas as pd
 from slugify import slugify
-from os.path import exists
 
 import utils
-import sqlite3
-con = sqlite3.connect('payslip.db')
 
 def import_payslip(path):
+    con = sqlite3.connect(os.getcwd() + '/payslip.db')
     cur = con.cursor()
     # Truncate table
     cur.execute('''DROP TABLE IF EXISTS month_year''')
@@ -27,7 +27,6 @@ def import_payslip(path):
     read_file = pd.read_excel(path)
     df = read_file.reset_index()
     for index, row in df.iterrows():
-        print(row['STT'])
         if math.isnan(row['STT']):
             continue
         password = utils.get_random_string(4)
