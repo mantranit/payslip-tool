@@ -15,6 +15,8 @@ const DashboardContainer = () => {
     {
       field: "isPdf",
       headerName: "PDF Generated",
+      headerAlign: 'center',
+      align: 'center',
       width: 100,
       renderCell: (cellValues) => {
         return cellValues.value ? (
@@ -27,6 +29,8 @@ const DashboardContainer = () => {
     {
       field: "isSent",
       headerName: "Mail Sent",
+      headerAlign: 'center',
+      align: 'center',
       width: 100,
       renderCell: (cellValues) => {
         return cellValues.value ? (
@@ -106,6 +110,9 @@ const DashboardContainer = () => {
           rowsPerPageOptions={[20, 50, 100, 200]}
           checkboxSelection
           disableSelectionOnClick
+          getRowClassName={(params) => {
+            return `row-${params.indexRelativeToCurrentPage % 2 === 0 ? 'even': 'odd'}`
+          }}
         />
       </main>
     </div>
