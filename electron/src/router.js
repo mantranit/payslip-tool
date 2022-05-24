@@ -2,14 +2,14 @@ import React from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 
 import Dashboard from "./containers/Dashboard";
-import View from "./containers/View";
+import Preview from "./containers/Preview";
 
 const Router = () => {
   return (
     <HashRouter>
       <Routes>
         <Route exact path="/" element={<Dashboard />} />
-        <Route path="/view" element={<View />} />
+        <Route path="/preview" element={<Preview />} />
       </Routes>
     </HashRouter>
   );

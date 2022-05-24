@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
-import Sidebar from "../../components/Sidebar";
+import Layout from "../../components/Layout";
 import "./styles.scss";
 
 const DashboardContainer = () => {
@@ -15,8 +13,8 @@ const DashboardContainer = () => {
     {
       field: "isPdf",
       headerName: "PDF Generated",
-      headerAlign: 'center',
-      align: 'center',
+      headerAlign: "center",
+      align: "center",
       width: 100,
       renderCell: (cellValues) => {
         return cellValues.value ? (
@@ -29,8 +27,8 @@ const DashboardContainer = () => {
     {
       field: "isSent",
       headerName: "Mail Sent",
-      headerAlign: 'center',
-      align: 'center',
+      headerAlign: "center",
+      align: "center",
       width: 100,
       renderCell: (cellValues) => {
         return cellValues.value ? (
@@ -75,34 +73,10 @@ const DashboardContainer = () => {
       }
     );
   }, []);
-  const handleImport = () => {
-    window.appAPI.import(
-      () => {
-        window.appAPI.getAll(
-          "SELECT * FROM month_year",
-          (results) => {
-            const rows = JSON.parse(results[0]);
-            setRows(rows.data);
-          },
-          (error) => {
-            console.log("getAll error", error);
-          }
-        );
-      },
-      (error) => {
-        console.log("import error", error);
-      }
-    );
-  };
 
   return (
-    <div className="App">
-      <Sidebar>
-        <Button variant="contained" onClick={handleImport}>
-          Import data
-        </Button>
-      </Sidebar>
-      <main className="App-main">
+    <Layout>
+      <>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -111,11 +85,13 @@ const DashboardContainer = () => {
           checkboxSelection
           disableSelectionOnClick
           getRowClassName={(params) => {
-            return `row-${params.indexRelativeToCurrentPage % 2 === 0 ? 'even': 'odd'}`
+            return `row-${
+              params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
+            }`;
           }}
         />
-      </main>
-    </div>
+      </>
+    </Layout>
   );
 };
 

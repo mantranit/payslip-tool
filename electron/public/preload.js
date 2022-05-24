@@ -24,6 +24,14 @@ contextBridge.exposeInMainWorld("appAPI", {
       }
       callbackSuccess(results);
     });
+  },
+  preview: (sql, callbackSuccess, callbackError) => {
+    PythonShell.run(`${process.cwd()}/python/pdf.py`, { args: [sql, true] }, (err, results) => {
+      if (err) {
+        return callbackError(err);
+      }
+      callbackSuccess(results);
+    });
   }
 });
 

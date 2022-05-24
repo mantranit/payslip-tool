@@ -1,6 +1,6 @@
 const path = require("path");
 
-const { app, Menu, BrowserWindow } = require("electron");
+const { app, Menu, BrowserWindow, protocol } = require("electron");
 const isDev = require("electron-is-dev");
 
 // Conditionally include the dev tools installer to load React Dev Tools
@@ -26,7 +26,8 @@ function createWindow() {
       worldSafeExecuteJavaScript: true,
       enableRemoteModule: true,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      webSecurity: false,
     }
   });
 
@@ -79,6 +80,11 @@ app.whenReady().then(() => {
   ];
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
+
+  protocol.registerFileProtocol('file', (request, callback) => {
+    const pathname = request.url.replace('file:///', '');
+    callback(pathname);
+  });
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

@@ -7,7 +7,7 @@ from jinja2 import Template
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
 def get_template_pdf():
-    with open("templates/payslip.html", 'r', encoding='UTF-8') as file:
+    with open(os.getcwd() + "/python/templates/payslip.html", 'r', encoding='UTF-8') as file:
         return file.read()
 
 def generate(path, filename, data):
@@ -21,9 +21,9 @@ def generate(path, filename, data):
 
     pdf = pdfkit.from_string(rendered, pathFile)
     if pdf:
-        data['logger'].info('Generate data to file {} successfully.'.format(inputFile))
+        return inputFile
     else:
-        data['logger'].error('Generate data to file {} fail.'.format(inputFile))
+        return ''
 
 def set_password(path, filename, filenameTmp, data):
     inputFile = '/'.join((path, filename))
