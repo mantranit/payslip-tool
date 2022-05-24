@@ -8,10 +8,10 @@ from fetch import exec_query
 from datetime import datetime
 
 def build_payslip(sql):
-    results = exec_query(sql, False)
+    results = exec_query(sql, True)
     date_time = datetime.strptime('/'.join(('1', '2', '2022')), '%d/%m/%Y')
     input_data = {
-        'person': results[0],
+        'person': results,
         'currentTime': {
             'date_time': date_time,
             'monthString': date_time.strftime('%B'),

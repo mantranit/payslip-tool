@@ -39,52 +39,52 @@ const PreviewContainer = () => {
 
   return (
     <Layout>
-      <div className="preview">
-        <div className="preview-list">
-          <div className="preview-header">Fullname</div>
-          <div className="preview-content">
-            <Tree onNodeSelect={handleNodeSelect} />
-          </div>
-        </div>
-        <div className="preview-detail">
-          <div className="preview-header">
-            <p className="page-infor">
-              {numPages && (
-                <>
-                  Page {pageNumber} of {numPages}
-                </>
-              )}
-            </p>
-            <div>
-              <IconButton
-                className="color-white"
-                onClick={() => {
-                  setScale(scale - 0.1);
-                }}
-              >
-                <RemoveIcon />
-              </IconButton>
-              <IconButton
-                className="color-white"
-                onClick={() => {
-                  setScale(scale + 0.1);
-                }}
-              >
-                <AddIcon />
-              </IconButton>
+      <LoadingOverlay active={isLoading} spinner={true}>
+        <div className="preview">
+          <div className="preview-list">
+            <div className="preview-header">Fullname</div>
+            <div className="preview-content">
+              <Tree onNodeSelect={handleNodeSelect} />
             </div>
           </div>
-          <LoadingOverlay active={isLoading} spinner={true}>
-          <div className="preview-content">
-            <div>
-              <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
-                <Page pageNumber={pageNumber} scale={scale} />
-              </Document>
+          <div className="preview-detail">
+            <div className="preview-header">
+              <p className="page-infor">
+                {numPages && (
+                  <>
+                    Page {pageNumber} of {numPages}
+                  </>
+                )}
+              </p>
+              <div>
+                <IconButton
+                  className="color-white"
+                  onClick={() => {
+                    setScale(scale - 0.1);
+                  }}
+                >
+                  <RemoveIcon />
+                </IconButton>
+                <IconButton
+                  className="color-white"
+                  onClick={() => {
+                    setScale(scale + 0.1);
+                  }}
+                >
+                  <AddIcon />
+                </IconButton>
+              </div>
+            </div>
+            <div className="preview-content">
+              <div>
+                <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
+                  <Page pageNumber={pageNumber} scale={scale} />
+                </Document>
+              </div>
             </div>
           </div>
-          </LoadingOverlay>
         </div>
-      </div>
+      </LoadingOverlay>
     </Layout>
   );
 };

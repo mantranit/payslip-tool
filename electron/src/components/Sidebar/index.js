@@ -9,25 +9,14 @@ import {
   Divider,
 } from "@mui/material";
 import "./styles.scss";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PreviewIcon from "@mui/icons-material/Preview";
 
 const SidebarComponent = (props) => {
-  const handleImport = () => {
-    window.appAPI.import(
-      () => {},
-      (error) => {
-        console.log("import error", error);
-      }
-    );
-  };
-
   const {
     menu = [
       { icon: <DashboardIcon />, label: "Dashboard", to: "/" },
       { icon: <PreviewIcon />, label: "Preview", to: "/preview" },
-      { icon: <FileUploadIcon />, label: "Import", click: handleImport },
     ],
     children,
   } = props;
