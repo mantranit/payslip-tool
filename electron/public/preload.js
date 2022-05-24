@@ -4,6 +4,14 @@ const { dialog } = require("electron").remote;
 const { PythonShell } = require("python-shell");
 
 contextBridge.exposeInMainWorld("appAPI", {
+  selectFile: (callback) => {
+    dialog.showOpenDialog({ properties: ['openFile'] }).then((response) => {
+      if (response.canceled) {
+        return;
+      }
+      callback(response.filePaths[0]);
+    });
+  },
   import: (callbackSuccess, callbackError) => {
     dialog.showOpenDialog({ properties: ['openFile'] }).then((response) => {
       if (response.canceled) {

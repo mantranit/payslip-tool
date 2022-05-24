@@ -8,8 +8,8 @@ import Login from "./containers/Login";
 const Router = () => {
   return (
     <HashRouter>
-      <Routes path="/*">
-        <Route index element={<Login />} />
+      <Routes>
+        <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/preview" element={<Preview />} />
       </Routes>
