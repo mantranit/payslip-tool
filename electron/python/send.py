@@ -47,7 +47,6 @@ def send_payslip(month, id = None):
         server.login(sender_email, password)
 
         results = []
-        id = 0
         if (id):
             sql = 'SELECT * FROM "{table}" WHERE id = {id}'.format(table=table, id=id)
             results = exec_query(sql)
@@ -64,7 +63,6 @@ def send_payslip(month, id = None):
                 exec_update(sql)
 
         server.quit()
-        # os.remove(inputFile)
 
 if __name__ == "__main__":
     send_payslip(sys.argv[1], sys.argv[2]);
