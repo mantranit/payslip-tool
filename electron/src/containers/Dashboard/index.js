@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import CancelIcon from "@mui/icons-material/Cancel";
 import Layout from "../../components/Layout";
 import "./styles.scss";
 
@@ -18,7 +19,7 @@ const DashboardContainer = () => {
       width: 100,
       renderCell: (cellValues) => {
         return cellValues.value ? (
-          <CheckCircleIcon />
+          <CheckCircleIcon color="success" />
         ) : (
           <RadioButtonUncheckedIcon />
         );
@@ -31,11 +32,13 @@ const DashboardContainer = () => {
       align: "center",
       width: 100,
       renderCell: (cellValues) => {
-        return cellValues.value ? (
-          <CheckCircleIcon />
-        ) : (
-          <RadioButtonUncheckedIcon />
-        );
+        if (cellValues.value === 1) {
+          return <CheckCircleIcon color="success" />;
+        } else if (cellValues.value === -1) {
+          return <CancelIcon color="error" />;
+        } else {
+          return <RadioButtonUncheckedIcon />;
+        }
       },
     },
     { field: "workingDays", headerName: "Working Days", width: 100 },

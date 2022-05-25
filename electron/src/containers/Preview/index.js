@@ -19,9 +19,9 @@ const PreviewContainer = () => {
 
   const handleNodeSelect = (event, nodeIds) => {
     setLoading(true);
-    window.appAPI.sendMail(
-      nodeIds,
+    window.appAPI.preview(
       month,
+      nodeIds,
       (pdfFile) => {
         setFile(pdfFile);
         setLoading(false);
@@ -44,20 +44,10 @@ const PreviewContainer = () => {
       <LoadingComponent open={isLoading} />
       <div className="preview">
         <div className="preview-list">
-          <div className="preview-header">Fullname</div>
-          <div className="preview-content">
             <Tree onNodeSelect={handleNodeSelect} />
-          </div>
         </div>
         <div className="preview-detail">
-          <div className="preview-header">
-            <p className="page-infor">
-              {numPages && (
-                <>
-                  Page {pageNumber} of {numPages}
-                </>
-              )}
-            </p>
+          {/* <div className="preview-header">
             <div>
               <IconButton
                 className="color-white"
@@ -76,7 +66,7 @@ const PreviewContainer = () => {
                 <AddIcon />
               </IconButton>
             </div>
-          </div>
+          </div> */}
           <div className="preview-content">
             <div>
               <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>

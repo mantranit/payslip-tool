@@ -3,15 +3,14 @@ import os
 
 import utils
 from utils import pdf_processor
-from fetch import exec_query
-from utils.db import exec_update
+from utils.db import exec_update, exec_select
 from datetime import datetime
 
-def build_payslip(id, month):
+def build_payslip(month, id):
     date_time = datetime.strptime('/'.join(('1', month)), '%d/%m/%Y')
     table = month.replace('/', '_')
     sql = 'SELECT * FROM "{table}" WHERE id = {id}'.format(table=table, id=id)
-    results = exec_query(sql, True)
+    results = exec_select(sql, True)
     input_data = {
         'person': results,
         'currentTime': {

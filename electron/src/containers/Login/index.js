@@ -46,8 +46,8 @@ const LoginContainer = () => {
           showError(true, `Table is existing.`);
         } else {
           window.appAPI.import(
-            file,
             month,
+            file,
             (data) => {
               goInside();
             },

@@ -20,8 +20,10 @@ if (require("electron-squirrel-startup")) {
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1024,
+    height: 768,
+    minWidth: 1024,
+    minHeight: 768,
     webPreferences: {
       worldSafeExecuteJavaScript: true,
       enableRemoteModule: true,

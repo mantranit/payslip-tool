@@ -6,12 +6,10 @@ from os.path import exists
 
 import utils
 from utils import pdf_processor
-from fetch import exec_query
-from utils.db import exec_update
+from utils.db import exec_update, exec_select
 from datetime import datetime
 
 def prepare_mail(sender_email, data, table, date_time):
-
     input_data = {
         'person': data,
         'currentTime': {
@@ -49,18 +47,21 @@ def send_payslip(month, id = None):
         results = []
         if (id):
             sql = 'SELECT * FROM "{table}" WHERE id = {id}'.format(table=table, id=id)
-            results = exec_query(sql)
+            results = exec_select(sql)
         else:
             sql = 'SELECT * FROM "{table}"'.format(table=table)
-            results = exec_query(sql)
+            results = exec_select(sql)
 
         for item in results:
             [message, encriptedFile] = prepare_mail(sender_email, item, table, date_time)
             sent = server.sendmail(sender_email, item['email'], message.as_string())
             os.remove(encriptedFile)
-            if not hasattr(sent, 'error'):
+            sql = ''
+            if hasattr(sent, 'error'):
+                sql = 'UPDATE "{table}" SET isSent = -1 WHERE  id = {id}'.format(table=table, id=item['id'])
+            else:
                 sql = 'UPDATE "{table}" SET isSent = 1 WHERE  id = {id}'.format(table=table, id=item['id'])
-                exec_update(sql)
+            exec_update(sql)
 
         server.quit()
 

@@ -3,34 +3,21 @@
 }
 .preview-list {
   width: 260px;
-  height: 100vh;
+  height: calc(100vh - 68px);
   overflow: auto;
 }
 .preview-detail {
   width: calc(100% - 260px);
-  height: 100vh;
   color: white;
-  .preview-content{
-    display: flex;
-    background-color: #525659;
-    justify-content: center;
-  }
-  .page-infor{
-    margin: 0;
-  }
-}
-.preview-header{
-  color: white;
-  height: 60px;
-  background-color: #323639;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-}
-.preview-content{
-  height: calc(100vh - 60px);
   overflow: auto;
+}
+
+.preview-content{
+  height: calc(100vh - 68px);
+  overflow: auto;
+  display: flex;
+  background-color: #525659;
+  justify-content: center;
 }
 
 .color-white{

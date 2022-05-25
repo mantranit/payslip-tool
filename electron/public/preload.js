@@ -12,8 +12,8 @@ contextBridge.exposeInMainWorld("appAPI", {
       callback(response.filePaths[0]);
     });
   },
-  import: (file, table, callbackSuccess, callbackError) => {
-    PythonShell.run(`${process.cwd()}/python/import.py`, { args: [file, table] }, (err, results) => {
+  import: (month, file, callbackSuccess, callbackError) => {
+    PythonShell.run(`${process.cwd()}/python/import.py`, { args: [month, file] }, (err, results) => {
       if (err) {
         return callbackError(err);
       }
@@ -28,8 +28,8 @@ contextBridge.exposeInMainWorld("appAPI", {
       callbackSuccess(JSON.parse(results[0]).data);
     });
   },
-  preview: (id, month, callbackSuccess, callbackError) => {
-    PythonShell.run(`${process.cwd()}/python/pdf.py`, { args: [id, month] }, (err, results) => {
+  preview: (month, id, callbackSuccess, callbackError) => {
+    PythonShell.run(`${process.cwd()}/python/pdf.py`, { args: [month, id] }, (err, results) => {
       if (err) {
         return callbackError(err);
       }
@@ -45,7 +45,7 @@ contextBridge.exposeInMainWorld("appAPI", {
       callbackSuccess(JSON.parse(results[0]).data);
     });
   },
-  sendMail: (id, month, callbackSuccess, callbackError) => {
+  sendMail: (month, id, callbackSuccess, callbackError) => {
     PythonShell.run(`${process.cwd()}/python/send.py`, { args: [month, id] }, (err, results) => {
       console.log(err, results);
       if (err) {

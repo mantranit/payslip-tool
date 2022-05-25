@@ -3,11 +3,10 @@ import sqlite3
 import sys
 import math
 import pandas as pd
-from slugify import slugify
 
 import utils
 
-def import_payslip(path, month):
+def import_payslip(month, path):
     read_file = pd.read_excel(path)
 
     table = month.replace('/', '_')
