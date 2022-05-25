@@ -3,6 +3,7 @@ import sys
 import os
 from utils import send_mail
 from os.path import exists
+import time
 
 import utils
 from utils import pdf_processor
@@ -62,6 +63,8 @@ def send_payslip(month, id = None):
             else:
                 sql = 'UPDATE "{table}" SET isSent = 1 WHERE  id = {id}'.format(table=table, id=item['id'])
             exec_update(sql)
+            # delay 1s to avoid timeout
+            time.sleep(1)
 
         server.quit()
 
