@@ -11,7 +11,7 @@ const DashboardContainer = () => {
     { field: "fullName", headerName: "Full Name", width: 250 },
     { field: "email", headerName: "Email", width: 300 },
     {
-      field: "isPdf",
+      field: "pdfFile",
       headerName: "PDF Generated",
       headerAlign: "center",
       align: "center",
@@ -61,17 +61,20 @@ const DashboardContainer = () => {
     { field: "remainingLeave", headerName: "Remaining Leave", width: 100 },
     { field: "password", headerName: "Password", width: 90 },
   ]);
+
   useEffect(() => {
-    window.appAPI.getAll(
-      "SELECT * FROM month_year",
-      (results) => {
-        const rows = JSON.parse(results[0]);
-        setRows(rows.data);
-      },
-      (error) => {
-        console.log("getAll error", error);
-      }
-    );
+    const month = localStorage.getItem("current_month");
+    if (month) {
+      window.appAPI.getAll(
+        `SELECT * FROM "${month.replace("/", "_")}"`,
+        (data) => {
+          setRows(data);
+        },
+        (error) => {
+          console.log("getAll error", error);
+        }
+      );
+    }
   }, []);
 
   return (
@@ -80,8 +83,6 @@ const DashboardContainer = () => {
         <DataGrid
           rows={rows}
           columns={columns}
-          pageSize={20}
-          rowsPerPageOptions={[20, 50, 100, 200]}
           checkboxSelection
           disableSelectionOnClick
           getRowClassName={(params) => {

@@ -1,16 +1,21 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
 import Sidebar from "../Sidebar";
 import "./styles.scss";
 
 const LayoutComponent = (props) => {
-  const { children, sidebar = (<></>) } = props;
+  const month = localStorage.getItem("current_month");
+  const { children, sidebar = <></> } = props;
   return (
-    <div className="App">
-      <aside className="App-sidebar">
-        <Sidebar>{sidebar}</Sidebar>
-      </aside>
-      <main className="App-main">{children}</main>
-    </div>
+    <>
+      {!month && <Navigate to="/" replace={true} />}
+      <div className="App">
+        <aside className="App-sidebar">
+          <Sidebar>{sidebar}</Sidebar>
+        </aside>
+        <main className="App-main">{children}</main>
+      </div>
+    </>
   );
 };
 

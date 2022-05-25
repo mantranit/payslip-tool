@@ -8,16 +8,14 @@ from email.mime.text import MIMEText
 from jinja2 import Template
 
 def get_template_email():
-    with open("templates/email.html", 'r', encoding='UTF-8') as file:
+    with open(os.getcwd() + "/python/templates/email.html", 'r', encoding='UTF-8') as file:
         return file.read()
 
-def send_mail(path, filename, data):
+def build_email_template(path, filename, data, sender_email):
     jinja2_template = Template(get_template_email())
     subject = "PAYSLIP " + data['currentTime']['date_time'].strftime('%m.%Y')
     body = jinja2_template.render(**data)
-    sender_email = "paul.tran@watasolutions.com"
     receiver_email = data['person']['email']
-    password = "760467Tg7QwertY1"
 
     # Create a multipart message and set headers
     message = MIMEMultipart()
@@ -48,14 +46,4 @@ def send_mail(path, filename, data):
     # Add attachment to message and convert message to string
     message.attach(part)
 
-    # Log in to server using secure context and send email
-    # context = ssl.create_default_context()
-    with smtplib.SMTP("mail.watasolutions.com", 587) as server:
-        server.login(sender_email, password)
-        sent = server.sendmail(sender_email, [receiver_email], message.as_string())
-        if hasattr(sent, 'error'):
-            data['logger'].error('Sent mail to {} fail.'.format(receiver_email))
-        else:
-            data['logger'].info('Sent mail to {} successfully.'.format(receiver_email))
-        server.quit()
-        os.remove(inputFile)
+    return [message, inputFile]

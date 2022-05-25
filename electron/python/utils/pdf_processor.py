@@ -3,7 +3,6 @@ import pathlib
 import pdfkit
 import utils
 from jinja2 import Template
-# from jinja2.filters import FILTERS, pass_environment
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
 def get_template_pdf():
@@ -15,7 +14,6 @@ def generate(path, filename, data):
     pathFile = pathlib.Path(inputFile)
     pathFile.parent.mkdir(parents=True, exist_ok=True)
 
-    # FILTERS["currency_format"] = currency_format
     jinja2_template = Template(get_template_pdf())
     rendered = jinja2_template.render(**data)
 
@@ -37,4 +35,3 @@ def set_password(path, filename, filenameTmp, data):
 
         with open(outputFile, "wb") as out_file:
             output_pdf.write(out_file)
-            data['logger'].info('Encript file {} successfully.'.format(inputFile))

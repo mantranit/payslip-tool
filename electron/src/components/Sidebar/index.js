@@ -1,22 +1,30 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   List,
   ListItem,
   ListItemButton,
   ListItemText,
   ListItemIcon,
-  Divider,
 } from "@mui/material";
 import "./styles.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PreviewIcon from "@mui/icons-material/Preview";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const SidebarComponent = (props) => {
+  const navigate = useNavigate();
+  
+  const Logout = () => {
+    localStorage.clear();
+    navigate('/')
+  }
+  
   const {
     menu = [
-      { icon: <DashboardIcon />, label: "Dashboard", to: "/" },
+      { icon: <DashboardIcon />, label: "Dashboard", to: "/dashboard" },
       { icon: <PreviewIcon />, label: "Preview", to: "/preview" },
+      { icon: <LogoutIcon />, label: "Logout", click: Logout },
     ],
     children,
   } = props;
@@ -57,7 +65,6 @@ const SidebarComponent = (props) => {
           }
         })}
       </List>
-      <Divider />
       {children}
     </>
   );

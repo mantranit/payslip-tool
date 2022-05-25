@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import "./styles.scss";
 import TextField from "@mui/material/TextField";
@@ -15,6 +16,7 @@ const maxDate = new Date("2034-01-01T00:00:00.000");
 export const MonthYearPickerComponent = (props) => {
   const { onChange } = props;
   const [showMonth, setShowMonth] = useState(true);
+  const [showYear, setShowYear] = useState(false);
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const [date, setDate] = useState(new Date());
@@ -25,12 +27,13 @@ export const MonthYearPickerComponent = (props) => {
 
   const handleSelectMonthYear = (event) => {
     setAnchorEl(event.currentTarget);
-    setShowMonth(true)
+    setShowMonth(true);
   };
 
   const handleClosePopover = () => {
     setAnchorEl(null);
-    onChange(`${month}/${year}`);
+    const value = `${month}/${year}`;
+    onChange(value);
   }
 
   useEffect(() => {
@@ -38,8 +41,13 @@ export const MonthYearPickerComponent = (props) => {
     const temp = value.split("/");
     setMonth(temp[0]);
     setYear(temp[1]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!showMonth && !showYear) {
+      handleClosePopover();
+    }
+  }, [showYear]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -68,7 +76,7 @@ export const MonthYearPickerComponent = (props) => {
         }}
       >
         <div className="popover-month-year">
-        {showMonth ? (
+        {showMonth && (
           <MonthPicker
             date={date}
             minDate={minDate}
@@ -77,20 +85,21 @@ export const MonthYearPickerComponent = (props) => {
               setDate(newDate);
               const newMonth = newDate.getMonth() + 1;
               setMonth(newMonth < 10 ? `0${newMonth}` : newMonth);
-              setShowMonth(false)
+              setShowMonth(false);
+              setShowYear(true);
             }}
           />
-        ) : (
+        )}
+        {showYear && (
           <YearPicker
             date={date}
             isDateDisabled={() => false}
             minDate={minDate}
             maxDate={maxDate}
             onChange={(newDate) => {
-              console.log(newDate.getFullYear())
               setDate(newDate);
               setYear(newDate.getFullYear());
-              handleClosePopover();
+              setShowYear(false);
             }}
           />
         )}

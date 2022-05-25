@@ -6,18 +6,20 @@ import './styles.scss';
 export const TreeComponent = (props) => {
   const { onNodeSelect, onNodeFocus } = props;
   const [rows, setRows] = useState([]);
+  
   useEffect(() => {
+    const month = localStorage.getItem('current_month');
     window.appAPI.getAll(
-      "SELECT * FROM month_year",
-      (results) => {
-        const rows = JSON.parse(results[0]);
-        setRows(rows.data);
+      `SELECT * FROM "${month.replace('/', '_')}"`,
+      (data) => {
+        setRows(data);
       },
       (error) => {
         console.log("getAll error", error);
       }
     );
   }, []);
+
   return (
     <TreeView onNodeSelect={onNodeSelect} onNodeFocus={onNodeFocus}>
       {rows.map((row) => {

@@ -12,16 +12,18 @@ import LoadingComponent from "../../components/Loading";
 
 const PreviewContainer = () => {
   pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+  const month = localStorage.getItem('current_month');
   const [isLoading, setLoading] = useState(false);
   const [file, setFile] = useState("");
   const [scale, setScale] = useState(1.4);
+
   const handleNodeSelect = (event, nodeIds) => {
     setLoading(true);
-    window.appAPI.preview(
-      "SELECT * FROM month_year WHERE id = " + nodeIds,
-      (data) => {
-        console.log("preview data", data);
-        setFile(data[0]);
+    window.appAPI.sendMail(
+      nodeIds,
+      month,
+      (pdfFile) => {
+        setFile(pdfFile);
         setLoading(false);
       },
       (error) => {

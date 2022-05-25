@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import "./styles.scss";
 import TextField from "@mui/material/TextField";
@@ -18,7 +19,6 @@ export const FilePickerComponent = (props) => {
   useEffect(() => {
     const { value } = props;
     setFilePath(value);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
