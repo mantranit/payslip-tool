@@ -7,7 +7,7 @@ import time
 
 import utils
 from utils import pdf_processor
-from utils.db import exec_update, exec_select
+from utils.db import exec_query, exec_select
 from datetime import datetime
 
 def prepare_mail(sender_email, data, table, date_time):
@@ -29,7 +29,7 @@ def prepare_mail(sender_email, data, table, date_time):
     if (not exists('/'.join((path, filename)))):
         pdfFile = pdf_processor.generate(path, filename, input_data)
         sql = 'UPDATE "{table}" SET pdfFile = "{pdfFile}" WHERE  id = {id}'.format(table=table, pdfFile=pdfFile, id=data['id'])
-        exec_update(sql)
+        exec_query(sql)
 
     pdf_processor.set_password(path, filename, filenameEncript, input_data)
 
@@ -62,7 +62,7 @@ def send_payslip(month, id = None):
                 sql = 'UPDATE "{table}" SET isSent = -1 WHERE  id = {id}'.format(table=table, id=item['id'])
             else:
                 sql = 'UPDATE "{table}" SET isSent = 1 WHERE  id = {id}'.format(table=table, id=item['id'])
-            exec_update(sql)
+            exec_query(sql)
             # delay 1s to avoid timeout
             time.sleep(1)
 

@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-def exec_update(sql):
+def exec_query(sql):
     con = sqlite3.connect(os.getcwd() + '/payslip.db')
     cur = con.cursor()
 

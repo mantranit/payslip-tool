@@ -20,12 +20,20 @@ contextBridge.exposeInMainWorld("appAPI", {
       callbackSuccess(results[0]);
     });
   },
-  getAll: (sql, callbackSuccess, callbackError) => {
+  fetch: (sql, callbackSuccess, callbackError) => {
     PythonShell.run(`${process.cwd()}/python/fetch.py`, { args: [sql] }, (err, results) => {
       if (err) {
         return callbackError(err);
       }
       callbackSuccess(JSON.parse(results[0]).data);
+    });
+  },
+  saveSetting: (data, callbackSuccess, callbackError) => {
+    PythonShell.run(`${process.cwd()}/python/setting.py`, { args: [data] }, (err, results) => {
+      if (err) {
+        return callbackError(err);
+      }
+      callbackSuccess(results);
     });
   },
   preview: (month, id, callbackSuccess, callbackError) => {

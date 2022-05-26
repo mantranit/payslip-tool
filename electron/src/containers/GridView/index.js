@@ -76,13 +76,13 @@ const GridViewContainer = () => {
   ]);
 
   useEffect(() => {
-    window.appAPI.getAll(
+    window.appAPI.fetch(
       `SELECT * FROM "${month.replace("/", "_")}"`,
       (data) => {
         setRows(data);
       },
       (error) => {
-        console.log("getAll error", error);
+        console.log("fetch error", error);
       }
     );
   }, []);

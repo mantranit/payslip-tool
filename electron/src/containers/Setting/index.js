@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useApp } from "../../shared/AppProvider";
 import "./styles.scss";
 import Layout from "../../components/Layout";
@@ -13,16 +13,66 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
 const SettingContainer = () => {
-  const { setLoading } = useApp();
-  const [email, setEmail] = useState(localStorage.getItem("email"));
-  const [password, setPassword] = useState(localStorage.getItem("password"));
+  const { setLoading, setError, setMessage, setSeverity } = useApp();
+  const [MAIL_SERVER_HOST, setHost] = useState("");
+  const [MAIL_SERVER_PORT, setPort] = useState("");
+  const [MAIL_SERVER_ACCOUNT, setEmail] = useState("");
+  const [MAIL_SERVER_PASSWORD, setPassword] = useState("");
+
+  useEffect(() => {
+    window.appAPI.fetch(
+      `SELECT * FROM setting`,
+      (data) => {
+        setHost(
+          data.filter((row) => row.key === "MAIL_SERVER_HOST").length > 0
+            ? data.filter((row) => row.key === "MAIL_SERVER_HOST")[0].value
+            : "mail.watasolutions.com"
+        );
+        setPort(
+          data.filter((row) => row.key === "MAIL_SERVER_PORT").length > 0
+            ? data.filter((row) => row.key === "MAIL_SERVER_PORT")[0].value
+            : "587"
+        );
+        setEmail(
+          data.filter((row) => row.key === "MAIL_SERVER_ACCOUNT").length > 0
+            ? data.filter((row) => row.key === "MAIL_SERVER_ACCOUNT")[0].value
+            : ""
+        );
+        setPassword(
+          data.filter((row) => row.key === "MAIL_SERVER_PASSWORD").length > 0
+            ? data.filter((row) => row.key === "MAIL_SERVER_PASSWORD")[0].value
+            : ""
+        );
+      },
+      (error) => {
+        console.log("fetch error", error);
+      }
+    );
+  }, []);
 
   const handleUpdate = () => {
     setLoading(true);
-    localStorage.setItem("email", email);
-    localStorage.setItem("password", password);
-    setLoading(false);
-  }
+    window.appAPI.saveSetting(
+      JSON.stringify({
+        MAIL_SERVER_HOST,
+        MAIL_SERVER_PORT,
+        MAIL_SERVER_ACCOUNT,
+        MAIL_SERVER_PASSWORD,
+      }),
+      (data) => {
+        setLoading(false);
+        setError(true);
+        setMessage("Save successful");
+        setSeverity("success");
+      },
+      (error) => {
+        setLoading(false);
+        setError(true);
+        setMessage(error);
+        setSeverity("error");
+      }
+    );
+  };
 
   return (
     <Layout>
@@ -31,16 +81,33 @@ const SettingContainer = () => {
           <TabContext value="1">
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList variant="fullWidth">
-                <Tab label="Setting" value="1" />
+                <Tab label="SMTP Email Setting" value="1" />
               </TabList>
             </Box>
             <TabPanel value="1">
               <div className="setting-content__row">
                 <TextField
                   fullWidth
+                  label="Host"
+                  value={MAIL_SERVER_HOST}
+                  onChange={(e) => setHost(e.target.value)}
+                />
+              </div>
+              <div className="setting-content__row">
+                <TextField
+                  fullWidth
+                  type="number"
+                  label="Port"
+                  value={MAIL_SERVER_PORT}
+                  onChange={(e) => setPort(e.target.value)}
+                />
+              </div>
+              <div className="setting-content__row">
+                <TextField
+                  fullWidth
                   type="email"
                   label="Email"
-                  value={email}
+                  value={MAIL_SERVER_ACCOUNT}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
@@ -49,13 +116,18 @@ const SettingContainer = () => {
                   fullWidth
                   type="text"
                   label="Password"
-                  value={password}
+                  value={MAIL_SERVER_PASSWORD}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div>
-                <Button variant="contained" fullWidth size="large" onClick={handleUpdate}>
-                  Update
+                <Button
+                  variant="contained"
+                  fullWidth
+                  size="large"
+                  onClick={handleUpdate}
+                >
+                  Save
                 </Button>
               </div>
             </TabPanel>

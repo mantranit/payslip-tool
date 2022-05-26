@@ -10,11 +10,13 @@ const AppProvider = ({ children }) => {
   );
   const [isLoading, setLoading] = React.useState(false);
   const [isError, setError] = React.useState(false);
+  const [severity, setSeverity] = React.useState('error');
   const [message, setMessage] = React.useState("");
 
   const value = {
     auth,
     setAuth,
+    setSeverity,
     setError,
     setMessage,
     setLoading,
@@ -26,6 +28,7 @@ const AppProvider = ({ children }) => {
       <Toast
         open={isError}
         message={message}
+        severity={severity}
         onClose={() => setError(false)}
       />
       {children}

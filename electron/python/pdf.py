@@ -3,7 +3,7 @@ import os
 
 import utils
 from utils import pdf_processor
-from utils.db import exec_update, exec_select
+from utils.db import exec_query, exec_select
 from datetime import datetime
 
 def build_payslip(month, id):
@@ -25,7 +25,7 @@ def build_payslip(month, id):
 
     pdfFile = pdf_processor.generate(path, filename, input_data)
     sql = 'UPDATE "{table}" SET pdfFile = "{pdfFile}" WHERE  id = {id}'.format(table=table, pdfFile=pdfFile, id=id)
-    exec_update(sql)
+    exec_query(sql)
     
     print(pdfFile)
 

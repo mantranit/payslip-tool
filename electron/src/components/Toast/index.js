@@ -9,12 +9,14 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 
 const ToastComponent = (props) => {
-  const {onClose = () => {}, severity = 'error' } = props;
+  const {onClose = () => {} } = props;
   const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState("Error");
+  const [severity, setSeverity] = useState('error');
+  const [message, setMessage] = useState("");
 
   useEffect(()=> {
-    const { open, message } = props;
+    const { open, message, severity } = props;
+    setSeverity(severity);
     setOpen(open);
     setMessage(message);
   }, [props])
