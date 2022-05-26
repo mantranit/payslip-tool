@@ -9,7 +9,6 @@ import AdbIcon from "@mui/icons-material/Adb";
 import "./styles.scss";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Divider from "@mui/material/Divider";
 
 const NavLink = React.forwardRef((props, ref) => {
   const { activeClassName, ...rest } = props;
