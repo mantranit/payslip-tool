@@ -1,14 +1,15 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+import { useApp } from "../../shared/AppProvider";
 import AppBar from "../AppBar";
 import "./styles.scss";
 
 const LayoutComponent = (props) => {
-  const month = localStorage.getItem("current_month");
+  const { auth } = useApp();
   const { children } = props;
   return (
     <>
-      {!month && <Navigate to="/" replace={true} />}
+      {!auth && <Navigate to="/" replace={true} />}
       <AppBar />
       <div className="App">
         <main className="App-main">{children}</main>

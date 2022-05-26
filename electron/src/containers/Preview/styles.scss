@@ -8,7 +8,6 @@
 }
 .preview-detail {
   width: calc(100% - 260px);
-  color: white;
   overflow: auto;
 }
 
@@ -16,10 +15,17 @@
   height: calc(100vh - 68px);
   overflow: auto;
   display: flex;
-  background-color: #525659;
+  background-color: rgba(#525659, 0.3);
   justify-content: center;
+  &.content-center{
+    align-items: center;
+  }
 }
 
-.color-white{
-  color: white !important;
+.preview-floating{
+  position: fixed;
+  bottom: 20px;
+  right: 36px;
+  display: grid;
+  gap: 16px;
 }

@@ -13,19 +13,20 @@ import MonthYearPicker from "../../components/MonthYearPicker";
 import { useApp } from "../../shared/AppProvider";
 
 const LoginContainer = () => {
-  const { setError, setMessage, setLoading } = useApp();
+  const { setOpenError, setMessage } = useApp();
   const today = new Date();
   let monthInit = today.getMonth() + 1;
   if (monthInit < 10) monthInit = "0" + monthInit;
 
   const navigate = useNavigate();
+  const [isLoading, setLoading] = useState(false);
   const [tabValue, setTabValue] = useState("1");
   const [month, setMonth] = useState(`${monthInit}/${today.getFullYear()}`);
   const [file, setFile] = useState("");
 
   const showError = (open, message) => {
     setLoading(false);
-    setError(open);
+    setOpenError(open);
     setMessage(message);
   };
 
@@ -106,6 +107,7 @@ const LoginContainer = () => {
                 fullWidth
                 size="large"
                 onClick={handleSelect}
+                disabled={isLoading}
               >
                 Select
               </Button>
@@ -130,6 +132,7 @@ const LoginContainer = () => {
                 fullWidth
                 size="large"
                 onClick={handleUpload}
+                disabled={isLoading}
               >
                 Upload
               </Button>

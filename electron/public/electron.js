@@ -1,6 +1,6 @@
 const path = require("path");
 
-const { app, Menu, BrowserWindow, protocol } = require("electron");
+const { app, Menu, BrowserWindow, protocol, dialog } = require("electron");
 const isDev = require("electron-is-dev");
 
 // Conditionally include the dev tools installer to load React Dev Tools
@@ -28,9 +28,9 @@ function createWindow() {
       worldSafeExecuteJavaScript: true,
       enableRemoteModule: true,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, "preload.js"),
       webSecurity: false,
-    }
+    },
   });
 
   // and load the index.html of the app.
@@ -44,6 +44,29 @@ function createWindow() {
   if (isDev) {
     win.webContents.openDevTools();
   }
+
+  let showExitPrompt = true;
+
+  win.on("close", function (e) {
+    if (showExitPrompt) {
+      // The dialog box below will open, instead of your app closing.
+      e.preventDefault();
+      dialog
+        .showMessageBox(this, {
+          type: "question",
+          buttons: ["Yes", "No"],
+          title: "Confirm",
+          message: "Are you sure you want to quit?",
+        })
+        .then(({ response, checkboxChecked }) => {
+          if (response === 0) {
+            showExitPrompt = false;
+            this.webContents.executeJavaScript("localStorage.clear();", true);
+            this.close();
+          }
+        });
+    }
+  });
 }
 
 // This method will be called when Electron has finished
@@ -54,37 +77,52 @@ app.whenReady().then(() => {
 
   if (isDev) {
     installExtension(REACT_DEVELOPER_TOOLS)
-      .then(name => console.log(`Added Extension:  ${name}`))
-      .catch(error => console.log(`An error occurred: , ${error}`));
+      .then((name) => console.log(`Added Extension:  ${name}`))
+      .catch((error) => console.log(`An error occurred: , ${error}`));
   }
 
-  const isMac = process.platform === 'darwin';
+  const isMac = process.platform === "darwin";
   const template = [
+    ...(isMac
+      ? [
+          {
+            label: app.name,
+            submenu: [
+              { role: "about" },
+              { type: "separator" },
+              { role: "services" },
+              { type: "separator" },
+              { role: "hide" },
+              { role: "hideOthers" },
+              { role: "unhide" },
+              { type: "separator" },
+              { role: "quit" },
+            ],
+          },
+        ]
+      : []),
     {
-      label: 'File',
-      submenu: [
-        isMac ? { role: 'close' } : { role: 'quit' }
-      ]
+      label: "File",
+      submenu: [isMac ? { role: "close" } : { role: "quit" }],
     },
     {
-      label: 'View',
-      submenu: isDev ? [
-        { role: 'reload' },
-        { role: 'forceReload' },
-        { role: 'toggleDevTools' },
-        { type: 'separator' },
-        { role: 'togglefullscreen' }
-      ] : [
-        { role: 'reload' },
-        { role: 'togglefullscreen' }
-      ]
+      label: "View",
+      submenu: isDev
+        ? [
+            { role: "reload" },
+            { role: "forceReload" },
+            { role: "toggleDevTools" },
+            { type: "separator" },
+            { role: "togglefullscreen" },
+          ]
+        : [{ role: "reload" }, { role: "togglefullscreen" }],
     },
   ];
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 
-  protocol.registerFileProtocol('file', (request, callback) => {
-    const pathname = request.url.replace('file:///', '');
+  protocol.registerFileProtocol("file", (request, callback) => {
+    const pathname = request.url.replace("file:///", "");
     callback(pathname);
   });
 });

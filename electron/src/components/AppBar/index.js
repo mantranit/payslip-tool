@@ -1,14 +1,27 @@
 import * as React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink as NavLinkBase, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import AdbIcon from "@mui/icons-material/Adb";
-
+import "./styles.scss";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+
+const NavLink = React.forwardRef((props, ref) => {
+  const { activeClassName, ...rest } = props;
+  return (
+    <NavLinkBase
+      ref={ref}
+      {...rest}
+      className={({ isActive }) =>
+        `${props.className} ${activeClassName({ isActive })}`
+      }
+    />
+  );
+});
 
 const ResponsiveAppBar = (props) => {
   const {
@@ -40,9 +53,12 @@ const ResponsiveAppBar = (props) => {
           {pages.map((page) => (
             <Button
               key={page.label}
-              component={Link}
+              component={NavLink}
               to={page.to}
               sx={{ my: 2, color: "white", display: "block" }}
+              activeClassName={({ isActive }) =>
+                isActive ? "menu-item-active" : ""
+              }
             >
               {page.label}
             </Button>
@@ -73,7 +89,7 @@ const ResponsiveAppBar = (props) => {
             onClose={handleCloseUserMenu}
           >
             <MenuItem onClick={handleLogout}>
-              <Typography textAlign="center">Logout</Typography>
+              <Typography textAlign="center">Reselect month</Typography>
             </MenuItem>
           </Menu>
         </Box>
