@@ -9,6 +9,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import "./styles.scss";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Divider from "@mui/material/Divider";
 
 const NavLink = React.forwardRef((props, ref) => {
   const { activeClassName, ...rest } = props;
@@ -26,8 +27,9 @@ const NavLink = React.forwardRef((props, ref) => {
 const ResponsiveAppBar = (props) => {
   const {
     pages = [
-      { label: "Grid view", to: "/dashboard" },
-      { label: "List view", to: "/preview" },
+      { label: "Grid view", to: "/grid-view" },
+      { label: "List view", to: "/list-view" },
+      { label: "Setting", to: "/setting" },
     ],
   } = props;
   const navigate = useNavigate();
@@ -50,18 +52,25 @@ const ResponsiveAppBar = (props) => {
       <Toolbar disableGutters>
         <AdbIcon sx={{ mx: 2 }} />
         <Box sx={{ flexGrow: 1, display: "flex" }}>
-          {pages.map((page) => (
-            <Button
-              key={page.label}
-              component={NavLink}
-              to={page.to}
-              sx={{ my: 2, color: "white", display: "block" }}
-              activeClassName={({ isActive }) =>
-                isActive ? "menu-item-active" : ""
-              }
-            >
-              {page.label}
-            </Button>
+          {pages.map((page, index) => (
+            <>
+              {index !== 0 && (
+                <div className="menu-divider">
+                  <span />
+                </div>
+              )}
+              <Button
+                key={page.label}
+                component={NavLink}
+                to={page.to}
+                sx={{ my: 2, color: "white", display: "block" }}
+                activeClassName={({ isActive }) =>
+                  isActive ? "menu-item-active" : ""
+                }
+              >
+                {page.label}
+              </Button>
+            </>
           ))}
         </Box>
         <Box sx={{ flexGrow: 0 }}>

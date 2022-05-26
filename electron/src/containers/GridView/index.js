@@ -8,7 +8,7 @@ import Layout from "../../components/Layout";
 import "./styles.scss";
 import { useApp } from "../../shared/AppProvider";
 
-const DashboardContainer = () => {
+const GridViewContainer = () => {
   const { auth: month } = useApp();
   const [rows, setRows] = useState([]);
   const [columns] = useState([
@@ -106,4 +106,4 @@ const DashboardContainer = () => {
   );
 };
 
-export default DashboardContainer;
+export default GridViewContainer;

@@ -1,13 +1,12 @@
-.login{
-  background-color: rgb(35, 48, 68);
+.setting{
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: calc(100vh - 68px);
   width: 100vw;
 }
-.login-content{
-  width: 320px;
+.setting-content{
+  width: 400px;
   &__row{
     margin-bottom: 20px;
   }

@@ -1,3 +1,17 @@
-.menu-item-active{
-    font-weight: bold !important;
+.menu-item-active {
+  font-weight: bold !important;
+}
+.menu-divider {
+  height: 68px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+  span {
+    display: block;
+    width: 6px;
+    height: 6px;
+    background-color: white;
+    border-radius: 100%;
+  }
 }

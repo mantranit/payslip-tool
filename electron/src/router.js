@@ -1,17 +1,19 @@
 import React from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 
-import Dashboard from "./containers/Dashboard";
-import Preview from "./containers/Preview";
-import Login from "./containers/Login";
+import GridView from "./containers/GridView";
+import ListView from "./containers/ListView";
+import Select from "./containers/Select";
+import Setting from "./containers/Setting";
 
 const Router = () => {
   return (
     <HashRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/preview" element={<Preview />} />
+        <Route path="/" element={<Select />} />
+        <Route path="/grid-view" element={<GridView />} />
+        <Route path="/list-view" element={<ListView />} />
+        <Route path="/setting" element={<Setting />} />
       </Routes>
     </HashRouter>
   );

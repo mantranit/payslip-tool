@@ -1,19 +1,34 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 import { useApp } from "../../shared/AppProvider";
 import "./styles.scss";
 import Layout from "../../components/Layout";
-import Tree from "../../components/Tree";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import Fab from "@mui/material/Fab";
+import TreeView from "@mui/lab/TreeView";
+import TreeItem from "@mui/lab/TreeItem";
 
-const PreviewContainer = () => {
+const ListViewContainer = () => {
   pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
   const { auth: month, setLoading } = useApp();
   const [file, setFile] = useState("");
   const [scale, setScale] = useState(1.4);
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    window.appAPI.getAll(
+      `SELECT * FROM "${month.replace("/", "_")}"`,
+      (data) => {
+        setRows(data);
+      },
+      (error) => {
+        console.log("getAll error", error);
+      }
+    );
+  }, []);
 
   const handleNodeSelect = (event, nodeIds) => {
     setLoading(true);
@@ -35,7 +50,18 @@ const PreviewContainer = () => {
     <Layout>
       <div className="preview">
         <div className="preview-list">
-          <Tree onNodeSelect={handleNodeSelect} />
+          <TreeView onNodeSelect={handleNodeSelect}>
+            {rows.map((row) => {
+              return (
+                <TreeItem
+                  key={row.id}
+                  className="tree-item"
+                  nodeId={row.id.toString()}
+                  label={row.fullName}
+                />
+              );
+            })}
+          </TreeView>
         </div>
         <div className="preview-detail">
           {file ? (
@@ -75,4 +101,4 @@ const PreviewContainer = () => {
   );
 };
 
-export default PreviewContainer;
+export default ListViewContainer;

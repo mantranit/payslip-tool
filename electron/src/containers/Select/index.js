@@ -12,7 +12,7 @@ import FilePicker from "../../components/FilePicker";
 import MonthYearPicker from "../../components/MonthYearPicker";
 import { useApp } from "../../shared/AppProvider";
 
-const LoginContainer = () => {
+const SelectContainer = () => {
   const { setError, setMessage, setLoading } = useApp();
   const today = new Date();
   let monthInit = today.getMonth() + 1;
@@ -32,7 +32,7 @@ const LoginContainer = () => {
   const goInside = () => {
     setLoading(false);
     localStorage.setItem("current_month", month);
-    navigate("/dashboard");
+    navigate("/grid-view");
   };
 
   const handleUpload = () => {
@@ -79,8 +79,8 @@ const LoginContainer = () => {
   };
 
   return (
-    <div className="login">
-      <Paper className="login-content">
+    <div className="select">
+      <Paper className="select-content">
         <TabContext value={tabValue}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList
@@ -94,7 +94,7 @@ const LoginContainer = () => {
             </TabList>
           </Box>
           <TabPanel value="1">
-            <div className="login-content__row">
+            <div className="select-content__row">
               <MonthYearPicker
                 value={month}
                 onChange={(newValue) => setMonth(newValue)}
@@ -112,13 +112,13 @@ const LoginContainer = () => {
             </div>
           </TabPanel>
           <TabPanel value="2">
-            <div className="login-content__row">
+            <div className="select-content__row">
               <FilePicker
                 value={file}
                 onChange={(newValue) => setFile(newValue)}
               />
             </div>
-            <div className="login-content__row">
+            <div className="select-content__row">
               <MonthYearPicker
                 value={month}
                 onChange={(newValue) => setMonth(newValue)}
@@ -141,4 +141,4 @@ const LoginContainer = () => {
   );
 };
 
-export default LoginContainer;
+export default SelectContainer;
