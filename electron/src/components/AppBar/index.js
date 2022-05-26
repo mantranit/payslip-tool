@@ -52,14 +52,13 @@ const ResponsiveAppBar = (props) => {
         <AdbIcon sx={{ mx: 2 }} />
         <Box sx={{ flexGrow: 1, display: "flex" }}>
           {pages.map((page, index) => (
-            <>
+            <React.Fragment key={page.label}>
               {index !== 0 && (
                 <div className="menu-divider">
                   <span />
                 </div>
               )}
               <Button
-                key={page.label}
                 component={NavLink}
                 to={page.to}
                 sx={{ my: 2, color: "white", display: "block" }}
@@ -69,7 +68,7 @@ const ResponsiveAppBar = (props) => {
               >
                 {page.label}
               </Button>
-            </>
+            </React.Fragment>
           ))}
         </Box>
         <Box sx={{ flexGrow: 0 }}>
