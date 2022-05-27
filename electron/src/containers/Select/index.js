@@ -38,23 +38,11 @@ const SelectContainer = () => {
 
   const handleUpload = () => {
     setLoading(true);
-    window.appAPI.checkTableExist(
+    window.appAPI.import(
       month,
+      file,
       (data) => {
-        if (data.length > 0) {
-          showError(`Table is existing.`);
-        } else {
-          window.appAPI.import(
-            month,
-            file,
-            (data) => {
-              goInside();
-            },
-            (error) => {
-              showError(error.message);
-            }
-          );
-        }
+        goInside();
       },
       (error) => {
         showError(error.message);
@@ -70,7 +58,7 @@ const SelectContainer = () => {
         if (data.length > 0) {
           goInside();
         } else {
-          showError(`Table is not exist.`);
+          showError(`Data for month ${month} is not found.`);
         }
       },
       (error) => {
