@@ -1,3 +1,4 @@
+import json
 import smtplib
 import sys
 import os
@@ -69,9 +70,9 @@ def send_payslip(month, id = 'null'):
             exec_query(sql)
 
             if (id == 'null'):
-                print(item)
-            # delay 1s to avoid timeout
-            time.sleep(1)
+                print(json.dumps(item))
+                # delay 1s to avoid timeout
+                time.sleep(1)
 
         server.quit()
 

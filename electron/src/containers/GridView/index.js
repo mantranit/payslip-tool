@@ -252,7 +252,9 @@ const GridViewContainer = () => {
     window.appAPI.sendMailAll(
       month,
       (data) => {
-        console.log(data);
+        const row = JSON.parse(data);
+        console.log(row.fullName);
+        showToast(`Send mail to "${row.fullName}" successfull.`, "success");
       },
       (error) => {
         showToast(error.message);

@@ -63,7 +63,7 @@ contextBridge.exposeInMainWorld("appAPI", {
     });
   },
   sendMailAll: (month, callbackSuccess, callbackError, callbackFinished) => {
-    let pyshell = new PythonShell(`${process.cwd()}/python/send.py`, { args: [month, null] });
+    let pyshell = new PythonShell(`${process.cwd()}/python/send.py`, { pythonOptions: ['-u'], args: [month, null] });
     pyshell.on('message', function (message) {
       callbackSuccess(message);
     });

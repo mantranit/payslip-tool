@@ -1,5 +1,5 @@
 import * as React from "react";
-import { NavLink as NavLinkBase, Link, useNavigate } from "react-router-dom";
+import { NavLink as NavLinkBase } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -7,8 +7,6 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import AdbIcon from "@mui/icons-material/Adb";
 import "./styles.scss";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import { useApp } from "../../shared/AppProvider";
 
 const NavLink = React.forwardRef((props, ref) => {
