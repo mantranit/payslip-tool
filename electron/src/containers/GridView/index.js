@@ -9,10 +9,15 @@ import Layout from "../../components/Layout";
 import "./styles.scss";
 import { useApp } from "../../shared/AppProvider";
 import Box from "@mui/material/Box";
+import Tooltip from "@mui/material/Tooltip";
+import moment from "moment";
 
 const GridViewContainer = () => {
   const { auth: month, showToast, setLoading } = useApp();
   const [rows, setRows] = useState([]);
+  const formatCurrency = (number) => {
+    return new Intl.NumberFormat("vn-VN").format(number || 0);
+  };
   const [columns] = useState([
     {
       field: "action",
@@ -29,7 +34,13 @@ const GridViewContainer = () => {
             params.id,
             (data) => {
               setLoading(false);
-              showToast(`Send mail to "${params.getValue(params.id, 'fullName')}" successfull.`, "success");
+              showToast(
+                `Send mail to "${params.getValue(
+                  params.id,
+                  "fullName"
+                )}" successfull.`,
+                "success"
+              );
             },
             (error) => {
               setLoading(false);
@@ -55,9 +66,13 @@ const GridViewContainer = () => {
       width: 100,
       renderCell: (cellValues) => {
         return cellValues.value ? (
-          <CheckCircleIcon color="success" />
+          <Tooltip title="Generate PDF Success">
+            <CheckCircleIcon color="success" />
+          </Tooltip>
         ) : (
-          <RadioButtonUncheckedIcon />
+          <Tooltip title="Not generate yet">
+            <RadioButtonUncheckedIcon />
+          </Tooltip>
         );
       },
       hide: true,
@@ -71,12 +86,33 @@ const GridViewContainer = () => {
       width: 100,
       renderCell: (cellValues) => {
         if (cellValues.value === 1) {
-          return <CheckCircleIcon color="success" />;
+          return (
+            <Tooltip title="Sent Success">
+              <CheckCircleIcon color="success" />
+            </Tooltip>
+          );
         } else if (cellValues.value === -1) {
-          return <CancelIcon color="error" />;
+          return (
+            <Tooltip title="Sent Faile">
+              <CancelIcon color="error" />
+            </Tooltip>
+          );
         } else {
-          return <RadioButtonUncheckedIcon />;
+          return (
+            <Tooltip title="Not Sent yet">
+              <RadioButtonUncheckedIcon />
+            </Tooltip>
+          );
         }
+      },
+    },
+    {
+      field: "sentDate",
+      headerName: "Sent Date",
+      width: 200,
+      renderCell: (cellValues) => {
+        const date = moment(cellValues.value);
+        return date.isValid() ? date.format("H:m:s DD/MM/YYYY") : "-";
       },
     },
     { field: "workingDays", headerName: "Working Days", width: 100 },
@@ -87,50 +123,143 @@ const GridViewContainer = () => {
       width: 100,
       hide: true,
     },
-    { field: "grossSalary", headerName: "Gross salary", width: 150 },
+    {
+      field: "annualLeave",
+      headerName: "Annual Leave",
+      width: 100,
+      hide: true,
+    },
+    { field: "remainingLeave", headerName: "Remaining Leave", width: 100 },
+    {
+      field: "netAmount",
+      headerName: "Net Amount",
+      width: 150,
+      renderCell: (cellValues) => {
+        return formatCurrency(cellValues.value);
+      },
+    },
+    {
+      field: "grossSalary",
+      headerName: "Gross salary",
+      width: 150,
+      renderCell: (cellValues) => {
+        return formatCurrency(cellValues.value);
+      },
+    },
     {
       field: "responsibilityAllowance",
       headerName: "Responsibility Allowance",
       width: 150,
+      renderCell: (cellValues) => {
+        return formatCurrency(cellValues.value);
+      },
     },
-    { field: "parkingAllowance", headerName: "Parking Allowance", width: 150 },
-    { field: "bonus", headerName: "Bonus", width: 150 },
-    { field: "advance", headerName: "Advance", width: 150 },
-    { field: "otherAllowance", headerName: "Other Allowance", width: 150 },
-    { field: "overtimePay", headerName: "Overtime Pay", width: 150 },
-    { field: "totalSalary", headerName: "Total Salary", width: 150 },
-    { field: "insurance", headerName: "Insurance", width: 150 },
-    { field: "incomeTax", headerName: "IncomeTax", width: 150 },
-    { field: "refund", headerName: "Refund", width: 150 },
-    { field: "netAmount", headerName: "Net Amount", width: 150 },
-    { field: "annualLeave", headerName: "Annual Leave", width: 100 },
-    { field: "remainingLeave", headerName: "Remaining Leave", width: 100 },
+    {
+      field: "parkingAllowance",
+      headerName: "Parking Allowance",
+      width: 150,
+      renderCell: (cellValues) => {
+        return formatCurrency(cellValues.value);
+      },
+    },
+    {
+      field: "bonus",
+      headerName: "Bonus",
+      width: 150,
+      renderCell: (cellValues) => {
+        return formatCurrency(cellValues.value);
+      },
+    },
+    {
+      field: "advance",
+      headerName: "Advance",
+      width: 150,
+      renderCell: (cellValues) => {
+        return formatCurrency(cellValues.value);
+      },
+    },
+    {
+      field: "otherAllowance",
+      headerName: "Other Allowance",
+      width: 150,
+      renderCell: (cellValues) => {
+        return formatCurrency(cellValues.value);
+      },
+    },
+    {
+      field: "overtimePay",
+      headerName: "Overtime Pay",
+      width: 150,
+      renderCell: (cellValues) => {
+        return formatCurrency(cellValues.value);
+      },
+    },
+    {
+      field: "totalSalary",
+      headerName: "Total Salary",
+      width: 150,
+      renderCell: (cellValues) => {
+        return formatCurrency(cellValues.value);
+      },
+    },
+    {
+      field: "insurance",
+      headerName: "Insurance",
+      width: 150,
+      renderCell: (cellValues) => {
+        return formatCurrency(cellValues.value);
+      },
+    },
+    {
+      field: "incomeTax",
+      headerName: "IncomeTax",
+      width: 150,
+      renderCell: (cellValues) => {
+        return formatCurrency(cellValues.value);
+      },
+    },
+    {
+      field: "refund",
+      headerName: "Refund",
+      width: 150,
+      renderCell: (cellValues) => {
+        return formatCurrency(cellValues.value);
+      },
+    },
     { field: "password", headerName: "Password", width: 90, hide: true },
   ]);
 
   useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    setLoading(true);
     window.appAPI.fetch(
       `SELECT * FROM "${month.replace("/", "_")}"`,
       (data) => {
+        setLoading(false);
         setRows(data);
       },
       (error) => {
+        setLoading(false);
         showToast(error.message);
       }
     );
-  }, []);
+  };
 
   const handleSendAll = () => {
-    window.appAPI.sendMail(
+    window.appAPI.sendMailAll(
       month,
-      null,
       (data) => {
-        setLoading(false);
-        showToast(`Send all successfull.`, "success");
+        console.log(data);
       },
       (error) => {
-        setLoading(false);
         showToast(error.message);
+      },
+      (code, signal) => {
+        setLoading(false);
+        console.log(code, signal);
       }
     );
   };

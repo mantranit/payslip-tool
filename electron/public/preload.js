@@ -62,6 +62,19 @@ contextBridge.exposeInMainWorld("appAPI", {
       callbackSuccess(results);
     });
   },
+  sendMailAll: (month, callbackSuccess, callbackError, callbackFinished) => {
+    let pyshell = new PythonShell(`${process.cwd()}/python/send.py`, { args: [month, null] });
+    pyshell.on('message', function (message) {
+      callbackSuccess(message);
+    });
+    // end the input stream and allow the process to exit
+    pyshell.end(function (err, code, signal) {
+      if (err) {
+        callbackError(err);
+      };
+      callbackFinished(code, signal);
+    });
+  },
 });
 
 // It has the same sandbox as a Chrome extension.

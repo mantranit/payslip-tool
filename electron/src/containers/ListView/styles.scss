@@ -31,10 +31,11 @@
 }
 
 .tree-item {
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
   &:nth-child(odd) {
     background-color: #fff;
   }
   > div {
-    padding: 8px 0;
+    padding: 16px 0;
   }
 }

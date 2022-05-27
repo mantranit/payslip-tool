@@ -22,7 +22,7 @@ def import_payslip(month, path):
         parkingAllowance TEXT, bonus TEXT, advance TEXT, otherAllowance TEXT, 
         overtimePay TEXT, totalSalary TEXT, insurance TEXT, incomeTax TEXT, 
         refund TEXT, netAmount TEXT, annualLeave TEXT, remainingLeave TEXT, 
-        pdfFile TEXT, isSent INTEGER DEFAULT 0,
+        pdfFile TEXT, isSent INTEGER DEFAULT 0, sentDate TEXT,
         PRIMARY KEY("id" AUTOINCREMENT)
     )'''.format(table=table))
 
@@ -33,7 +33,7 @@ def import_payslip(month, path):
         password = utils.get_random_string(4)
         input_data = utils.get_data_row(row, password)
         row_value = list(input_data.values())
-        cur.execute('''INSERT INTO "{table}" VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '', 0)'''.format(table=table), row_value)
+        cur.execute('''INSERT INTO "{table}" VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '', 0, '')'''.format(table=table), row_value)
     
     # Save (commit) the changes
     con.commit()

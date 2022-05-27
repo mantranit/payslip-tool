@@ -64,8 +64,12 @@ def send_payslip(month, id = 'null'):
             if hasattr(sent, 'error'):
                 sql = 'UPDATE "{table}" SET isSent = -1 WHERE  id = {id}'.format(table=table, id=item['id'])
             else:
-                sql = 'UPDATE "{table}" SET isSent = 1 WHERE  id = {id}'.format(table=table, id=item['id'])
+                sentDate = datetime.now()
+                sql = 'UPDATE "{table}" SET isSent = 1, sentDate = "{sentDate}" WHERE  id = {id}'.format(table=table, sentDate=sentDate, id=item['id'])
             exec_query(sql)
+
+            if (id == 'null'):
+                print(item)
             # delay 1s to avoid timeout
             time.sleep(1)
 
