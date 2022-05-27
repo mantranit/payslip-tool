@@ -35,18 +35,21 @@ def prepare_mail(sender_email, data, table, date_time):
 
     return send_mail.build_email_template(path, filenameEncript, input_data, sender_email)
 
-def send_payslip(month, id = None):
+def send_payslip(month, id = 'null'):
     date_time = datetime.strptime('/'.join(('1', month)), '%d/%m/%Y')
     table = month.replace('/', '_')
-    sender_email = "paul.tran@watasolutions.com"
-    password = "760467Tg7QwertY1"
+    server_host = exec_select('''SELECT * FROM setting WHERE key = "MAIL_SERVER_HOST"''', True)['value']
+    server_port = exec_select('''SELECT * FROM setting WHERE key = "MAIL_SERVER_PORT"''', True)['value']
+    sender_email = exec_select('''SELECT * FROM setting WHERE key = "MAIL_SERVER_ACCOUNT"''', True)['value']
+    password = exec_select('''SELECT * FROM setting WHERE key = "MAIL_SERVER_PASSWORD"''', True)['value']
+
     # Log in to server using secure context and send email
     # context = ssl.create_default_context()
-    with smtplib.SMTP("mail.watasolutions.com", 587) as server:
+    with smtplib.SMTP(server_host, int(server_port)) as server:
         server.login(sender_email, password)
 
         results = []
-        if (id):
+        if (id != 'null'):
             sql = 'SELECT * FROM "{table}" WHERE id = {id}'.format(table=table, id=id)
             results = exec_select(sql)
         else:

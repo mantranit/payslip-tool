@@ -3,15 +3,48 @@ import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import Button from "@mui/material/Button";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Layout from "../../components/Layout";
 import "./styles.scss";
 import { useApp } from "../../shared/AppProvider";
+import Box from "@mui/material/Box";
 
 const GridViewContainer = () => {
-  const { auth: month } = useApp();
+  const { auth: month, showToast, setLoading } = useApp();
   const [rows, setRows] = useState([]);
   const [columns] = useState([
+    {
+      field: "action",
+      headerName: "Action",
+      headerAlign: "center",
+      align: "center",
+      sortable: false,
+      renderCell: (params) => {
+        const onClick = (e) => {
+          e.stopPropagation(); // don't select this row after clicking
+          setLoading(true);
+          window.appAPI.sendMail(
+            month,
+            params.id,
+            (data) => {
+              setLoading(false);
+              showToast(`Send mail to "${params.getValue(params.id, 'fullName')}" successfull.`, "success");
+            },
+            (error) => {
+              setLoading(false);
+              showToast(error.message);
+            }
+          );
+        };
+
+        return (
+          <Button variant="contained" color="primary" onClick={onClick}>
+            Send
+          </Button>
+        );
+      },
+    },
     { field: "fullName", headerName: "Full Name", width: 250 },
     { field: "email", headerName: "Email", width: 300 },
     {
@@ -82,18 +115,37 @@ const GridViewContainer = () => {
         setRows(data);
       },
       (error) => {
-        console.log("fetch error", error);
+        showToast(error.message);
       }
     );
   }, []);
 
+  const handleSendAll = () => {
+    window.appAPI.sendMail(
+      month,
+      null,
+      (data) => {
+        setLoading(false);
+        showToast(`Send all successfull.`, "success");
+      },
+      (error) => {
+        setLoading(false);
+        showToast(error.message);
+      }
+    );
+  };
+
   return (
     <Layout>
-      <>
+      <Box sx={{ m: 2 }}>
+        <Button variant="contained" onClick={handleSendAll}>
+          Send All
+        </Button>
+      </Box>
+      <div className="grid-content">
         <DataGrid
           rows={rows}
           columns={columns}
-          checkboxSelection
           disableSelectionOnClick
           getRowClassName={(params) => {
             return `row-${
@@ -101,7 +153,7 @@ const GridViewContainer = () => {
             }`;
           }}
         />
-      </>
+      </div>
     </Layout>
   );
 };

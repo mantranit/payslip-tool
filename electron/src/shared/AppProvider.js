@@ -9,16 +9,20 @@ const AppProvider = ({ children }) => {
     localStorage.getItem("current_month")
   );
   const [isLoading, setLoading] = React.useState(false);
-  const [isError, setError] = React.useState(false);
+  const [isToast, setToast] = React.useState(false);
   const [severity, setSeverity] = React.useState('error');
   const [message, setMessage] = React.useState("");
+
+  const showToast = (message, severity = "error") => {
+    setToast(true);
+    setMessage(message);
+    setSeverity(severity);
+  }
 
   const value = {
     auth,
     setAuth,
-    setSeverity,
-    setError,
-    setMessage,
+    showToast,
     setLoading,
   };
 
@@ -26,10 +30,10 @@ const AppProvider = ({ children }) => {
     <AppContext.Provider value={value}>
       <Loading open={isLoading} />
       <Toast
-        open={isError}
+        open={isToast}
         message={message}
         severity={severity}
-        onClose={() => setError(false)}
+        onClose={() => setToast(false)}
       />
       {children}
     </AppContext.Provider>

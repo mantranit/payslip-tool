@@ -13,7 +13,7 @@ import TreeItem from "@mui/lab/TreeItem";
 
 const ListViewContainer = () => {
   pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
-  const { auth: month, setLoading } = useApp();
+  const { auth: month, setLoading, showToast} = useApp();
   const [file, setFile] = useState("");
   const [scale, setScale] = useState(1.4);
   const [rows, setRows] = useState([]);
@@ -25,7 +25,7 @@ const ListViewContainer = () => {
         setRows(data);
       },
       (error) => {
-        console.log("fetch error", error);
+        showToast(error.message);
       }
     );
   }, []);
@@ -40,8 +40,8 @@ const ListViewContainer = () => {
         setLoading(false);
       },
       (error) => {
-        console.log("preview error", error);
         setLoading(false);
+        showToast(error.message);
       }
     );
   };

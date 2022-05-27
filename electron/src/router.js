@@ -12,6 +12,7 @@ const Router = () => {
     <HashRouter>
       <Routes>
         <Route path="/" element={<Select />} />
+        <Route path="/setting" element={<Setting />} />
         <Route
           path="/grid-view"
           element={
@@ -25,14 +26,6 @@ const Router = () => {
           element={
             <PrivateRoute>
               <ListView />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/setting"
-          element={
-            <PrivateRoute>
-              <Setting />
             </PrivateRoute>
           }
         />

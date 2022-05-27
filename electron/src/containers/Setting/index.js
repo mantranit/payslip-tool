@@ -13,7 +13,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
 const SettingContainer = () => {
-  const { setLoading, setError, setMessage, setSeverity } = useApp();
+  const { setLoading, showToast } = useApp();
   const [MAIL_SERVER_HOST, setHost] = useState("");
   const [MAIL_SERVER_PORT, setPort] = useState("");
   const [MAIL_SERVER_ACCOUNT, setEmail] = useState("");
@@ -45,7 +45,7 @@ const SettingContainer = () => {
         );
       },
       (error) => {
-        console.log("fetch error", error);
+        console.log("setting fetch error", error.toString());
       }
     );
   }, []);
@@ -61,15 +61,11 @@ const SettingContainer = () => {
       }),
       (data) => {
         setLoading(false);
-        setError(true);
-        setMessage("Save successful");
-        setSeverity("success");
+        showToast("Save successful!", "success");
       },
       (error) => {
         setLoading(false);
-        setError(true);
-        setMessage(error);
-        setSeverity("error");
+        showToast(error.message);
       }
     );
   };

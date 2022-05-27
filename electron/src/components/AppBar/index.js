@@ -1,5 +1,5 @@
 import * as React from "react";
-import { NavLink as NavLinkBase, useNavigate } from "react-router-dom";
+import { NavLink as NavLinkBase, Link, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -9,6 +9,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import "./styles.scss";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { useApp } from "../../shared/AppProvider";
 
 const NavLink = React.forwardRef((props, ref) => {
   const { activeClassName, ...rest } = props;
@@ -24,28 +25,25 @@ const NavLink = React.forwardRef((props, ref) => {
 });
 
 const ResponsiveAppBar = (props) => {
-  const {
-    pages = [
-      { label: "Grid view", to: "/grid-view" },
-      { label: "List view", to: "/list-view" },
-      { label: "Setting", to: "/setting" },
-    ],
-  } = props;
-  const navigate = useNavigate();
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  const { auth, setAuth } = useApp();
 
   const handleLogout = () => {
+    setAuth(null);
     localStorage.clear();
-    navigate("/");
   };
+
+  const {
+    pages = [
+      ...(auth
+        ? [
+            { label: "Grid view", to: "/grid-view" },
+            { label: "List view", to: "/list-view" },
+            { label: "Reselect", click: handleLogout },
+          ]
+        : [{ label: "Import", to: "/" }]),
+    ],
+  } = props;
+
   return (
     <AppBar position="static">
       <Toolbar disableGutters>
@@ -58,47 +56,42 @@ const ResponsiveAppBar = (props) => {
                   <span />
                 </div>
               )}
-              <Button
-                component={NavLink}
-                to={page.to}
-                sx={{ my: 2, color: "white", display: "block" }}
-                activeClassName={({ isActive }) =>
-                  isActive ? "menu-item-active" : ""
-                }
-              >
-                {page.label}
-              </Button>
+              {page.to ? (
+                <Button
+                  component={NavLink}
+                  to={page.to}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                  activeClassName={({ isActive }) =>
+                    isActive ? "menu-item-active" : ""
+                  }
+                >
+                  {page.label}
+                </Button>
+              ) : (
+                <Button
+                  onClick={page.click}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page.label}
+                </Button>
+              )}
             </React.Fragment>
           ))}
         </Box>
-        <Box sx={{ flexGrow: 0 }}>
+        <Typography variant="h6" sx={{ flexGrow: 2 }}>
+          {auth}
+        </Typography>
+        <Box sx={{ flexGrow: 0, mx: 2 }}>
           <Button
-            variant="outline"
-            onClick={handleOpenUserMenu}
-            sx={{
-              fontFamily: "monospace",
-              fontSize: "2rem",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-            }}
+            component={NavLink}
+            to="/setting"
+            sx={{ my: 2, color: "white", display: "block" }}
+            activeClassName={({ isActive }) =>
+              isActive ? "menu-item-active" : ""
+            }
           >
-            {localStorage.getItem("current_month")}
+            Setting
           </Button>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
-            }}
-            keepMounted
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
-          >
-            <MenuItem onClick={handleLogout}>
-              <Typography textAlign="center">Reselect month</Typography>
-            </MenuItem>
-          </Menu>
         </Box>
       </Toolbar>
     </AppBar>
