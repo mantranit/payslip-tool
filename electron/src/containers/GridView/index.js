@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import Button from "@mui/material/Button";
-import CancelIcon from "@mui/icons-material/Cancel";
 import Layout from "../../components/Layout";
 import "./styles.scss";
 import { useApp } from "../../shared/AppProvider";
@@ -29,18 +29,15 @@ const GridViewContainer = () => {
         const onClick = (e) => {
           e.stopPropagation(); // don't select this row after clicking
           setLoading(true);
+          setListName("");
           window.appAPI.sendMail(
             month,
             params.id,
             (data) => {
               setLoading(false);
-              showToast(
-                `Send mail to "${params.getValue(
-                  params.id,
-                  "fullName"
-                )}" successfull.`,
-                "success"
-              );
+              setListName(params.getValue(params.id, "fullName"));
+
+              fetchData();
             },
             (error) => {
               setLoading(false);
@@ -67,7 +64,7 @@ const GridViewContainer = () => {
       renderCell: (cellValues) => {
         return cellValues.value ? (
           <Tooltip title="Generate PDF Success">
-            <CheckCircleIcon color="success" />
+            <CheckIcon color="success" />
           </Tooltip>
         ) : (
           <Tooltip title="Not generate yet">
@@ -88,13 +85,13 @@ const GridViewContainer = () => {
         if (cellValues.value === 1) {
           return (
             <Tooltip title="Sent Success">
-              <CheckCircleIcon color="success" />
+              <CheckIcon color="success" />
             </Tooltip>
           );
         } else if (cellValues.value === -1) {
           return (
             <Tooltip title="Sent Faile">
-              <CancelIcon color="error" />
+              <CloseIcon color="error" />
             </Tooltip>
           );
         } else {
@@ -112,7 +109,7 @@ const GridViewContainer = () => {
       width: 200,
       renderCell: (cellValues) => {
         const date = moment(cellValues.value);
-        return date.isValid() ? date.format("H:m:s DD/MM/YYYY") : "-";
+        return date.isValid() ? date.format("H:mm:ss DD/MM/YYYY") : "-";
       },
     },
     { field: "workingDays", headerName: "Working Days", width: 100 },
@@ -229,9 +226,31 @@ const GridViewContainer = () => {
     { field: "password", headerName: "Password", width: 90, hide: true },
   ]);
 
+  let [listName, setListName] = useState("");
+
+  const buildListName = (listName) => {
+    const list = listName.split(",");
+    return (
+      <ul className="sent-success">
+        {list.map((name) => {
+          return <li key={name}>{name}</li>;
+        })}
+      </ul>
+    );
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (listName) {
+      showToast(
+        <>Send mail successfully to:{buildListName(listName)}</>,
+        "success"
+      );
+    }
+  }, [listName]);
 
   const fetchData = () => {
     setLoading(true);
@@ -249,19 +268,23 @@ const GridViewContainer = () => {
   };
 
   const handleSendAll = () => {
+    setLoading(true);
+    setListName("");
+    let msg = "";
     window.appAPI.sendMailAll(
       month,
       (data) => {
         const row = JSON.parse(data);
-        console.log(row.fullName);
-        showToast(`Send mail to "${row.fullName}" successfull.`, "success");
+        msg += msg ? `,${row.fullName}` : row.fullName;
+        setListName(msg);
       },
       (error) => {
         showToast(error.message);
       },
       (code, signal) => {
         setLoading(false);
-        console.log(code, signal);
+
+        fetchData();
       }
     );
   };
