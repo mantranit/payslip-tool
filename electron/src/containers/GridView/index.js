@@ -231,11 +231,11 @@ const GridViewContainer = () => {
   const buildListName = (listName) => {
     const list = listName.split(",");
     return (
-      <ul className="sent-success">
+      <ol reversed={true} className="sent-success">
         {list.map((name) => {
           return <li key={name}>{name}</li>;
         })}
-      </ul>
+      </ol>
     );
   };
 
