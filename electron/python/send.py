@@ -61,18 +61,19 @@ def send_payslip(month, id = 'null'):
             [message, encriptedFile] = prepare_mail(sender_email, item, table, date_time)
             sent = server.sendmail(sender_email, item['email'], message.as_string())
             os.remove(encriptedFile)
-            sql = ''
+
             if hasattr(sent, 'error'):
                 sql = 'UPDATE "{table}" SET isSent = -1 WHERE  id = {id}'.format(table=table, id=item['id'])
+                exec_query(sql)
             else:
                 sentDate = datetime.now()
                 sql = 'UPDATE "{table}" SET isSent = 1, sentDate = "{sentDate}" WHERE  id = {id}'.format(table=table, sentDate=sentDate, id=item['id'])
-            exec_query(sql)
+                exec_query(sql)
+                if (id == 'null'):
+                    print(json.dumps(item))
 
-            if (id == 'null'):
-                print(json.dumps(item))
-                # delay 1s to avoid timeout
-                time.sleep(1)
+            # delay 1s to avoid timeout
+            time.sleep(1)
 
         server.quit()
 
