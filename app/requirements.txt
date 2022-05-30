@@ -1,6 +1,0 @@
-pdfkit
-python-slugify
-jinja2
-pypdf2
-pandas
-openpyxl
