@@ -1,6 +1,6 @@
 // All of the Node.js APIs are available in the preload process.
 const { contextBridge } = require("electron");
-const { dialog } = require("electron").remote;
+const { dialog, app } = require("electron").remote;
 const { PythonShell } = require("python-shell");
 
 contextBridge.exposeInMainWorld("appAPI", {
@@ -13,7 +13,7 @@ contextBridge.exposeInMainWorld("appAPI", {
     });
   },
   import: (month, file, callbackSuccess, callbackError) => {
-    PythonShell.run(`${process.cwd()}/python/import.py`, { args: [month, file] }, (err, results) => {
+    PythonShell.run(`${process.cwd()}/python/import.py`, { args: [app.getPath('userData'), month, file] }, (err, results) => {
       if (err) {
         return callbackError(err);
       }
@@ -21,7 +21,7 @@ contextBridge.exposeInMainWorld("appAPI", {
     });
   },
   fetch: (sql, callbackSuccess, callbackError) => {
-    PythonShell.run(`${process.cwd()}/python/fetch.py`, { args: [sql] }, (err, results) => {
+    PythonShell.run(`${process.cwd()}/python/fetch.py`, { args: [app.getPath('userData'), sql] }, (err, results) => {
       if (err) {
         return callbackError(err);
       }
@@ -29,7 +29,7 @@ contextBridge.exposeInMainWorld("appAPI", {
     });
   },
   saveSetting: (data, callbackSuccess, callbackError) => {
-    PythonShell.run(`${process.cwd()}/python/setting.py`, { args: [data] }, (err, results) => {
+    PythonShell.run(`${process.cwd()}/python/setting.py`, { args: [app.getPath('userData'), data] }, (err, results) => {
       if (err) {
         return callbackError(err);
       }
@@ -37,7 +37,7 @@ contextBridge.exposeInMainWorld("appAPI", {
     });
   },
   preview: (month, id, callbackSuccess, callbackError) => {
-    PythonShell.run(`${process.cwd()}/python/pdf.py`, { args: [month, id] }, (err, results) => {
+    PythonShell.run(`${process.cwd()}/python/pdf.py`, { args: [app.getPath('userData'), month, id] }, (err, results) => {
       if (err) {
         return callbackError(err);
       }
@@ -46,7 +46,7 @@ contextBridge.exposeInMainWorld("appAPI", {
   },
   checkTableExist: (month, callbackSuccess, callbackError) => {
     const sql = `SELECT name FROM sqlite_master WHERE type='table' AND name='${month.replace('/', '_')}'`;
-    PythonShell.run(`${process.cwd()}/python/fetch.py`, { args: [sql, true] }, (err, results) => {
+    PythonShell.run(`${process.cwd()}/python/fetch.py`, { args: [app.getPath('userData'), sql, true] }, (err, results) => {
       if (err) {
         return callbackError(err);
       }
@@ -54,7 +54,7 @@ contextBridge.exposeInMainWorld("appAPI", {
     });
   },
   sendMail: (month, id, callbackSuccess, callbackError) => {
-    PythonShell.run(`${process.cwd()}/python/send.py`, { args: [month, id] }, (err, results) => {
+    PythonShell.run(`${process.cwd()}/python/send.py`, { args: [app.getPath('userData'), month, id] }, (err, results) => {
       console.log(err, results);
       if (err) {
         return callbackError(err);
@@ -63,7 +63,7 @@ contextBridge.exposeInMainWorld("appAPI", {
     });
   },
   sendMailAll: (month, callbackSuccess, callbackError, callbackFinished) => {
-    let pyshell = new PythonShell(`${process.cwd()}/python/send.py`, { pythonOptions: ['-u'], args: [month, null] });
+    let pyshell = new PythonShell(`${process.cwd()}/python/send.py`, { pythonOptions: ['-u'], args: [app.getPath('userData'), month, null] });
     pyshell.on('message', function (message) {
       callbackSuccess(message);
     });

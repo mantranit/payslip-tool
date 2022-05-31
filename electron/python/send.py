@@ -11,7 +11,7 @@ from utils import pdf_processor
 from utils.db import exec_query, exec_select
 from datetime import datetime
 
-def prepare_mail(sender_email, data, table, date_time):
+def prepare_mail(userDataDir, sender_email, data, table, date_time):
     input_data = {
         'person': data,
         'currentTime': {
@@ -30,19 +30,19 @@ def prepare_mail(sender_email, data, table, date_time):
     if (not exists('/'.join((path, filename)))):
         pdfFile = pdf_processor.generate(path, filename, input_data)
         sql = 'UPDATE "{table}" SET pdfFile = "{pdfFile}" WHERE  id = {id}'.format(table=table, pdfFile=pdfFile, id=data['id'])
-        exec_query(sql)
+        exec_query(userDataDir, sql)
 
     pdf_processor.set_password(path, filename, filenameEncript, input_data)
 
     return send_mail.build_email_template(path, filenameEncript, input_data, sender_email)
 
-def send_payslip(month, id = 'null'):
+def send_payslip(userDataDir, month, id = 'null'):
     date_time = datetime.strptime('/'.join(('1', month)), '%d/%m/%Y')
     table = month.replace('/', '_')
-    server_host = exec_select('''SELECT * FROM setting WHERE key = "MAIL_SERVER_HOST"''', True)['value']
-    server_port = exec_select('''SELECT * FROM setting WHERE key = "MAIL_SERVER_PORT"''', True)['value']
-    sender_email = exec_select('''SELECT * FROM setting WHERE key = "MAIL_SERVER_ACCOUNT"''', True)['value']
-    password = exec_select('''SELECT * FROM setting WHERE key = "MAIL_SERVER_PASSWORD"''', True)['value']
+    server_host = exec_select(userDataDir, '''SELECT * FROM setting WHERE key = "MAIL_SERVER_HOST"''', True)['value']
+    server_port = exec_select(userDataDir, '''SELECT * FROM setting WHERE key = "MAIL_SERVER_PORT"''', True)['value']
+    sender_email = exec_select(userDataDir, '''SELECT * FROM setting WHERE key = "MAIL_SERVER_ACCOUNT"''', True)['value']
+    password = exec_select(userDataDir, '''SELECT * FROM setting WHERE key = "MAIL_SERVER_PASSWORD"''', True)['value']
 
     # Log in to server using secure context and send email
     # context = ssl.create_default_context()
@@ -52,23 +52,23 @@ def send_payslip(month, id = 'null'):
         results = []
         if (id != 'null'):
             sql = 'SELECT * FROM "{table}" WHERE id = {id}'.format(table=table, id=id)
-            results = exec_select(sql)
+            results = exec_select(userDataDir, sql)
         else:
             sql = 'SELECT * FROM "{table}"'.format(table=table)
-            results = exec_select(sql)
+            results = exec_select(userDataDir, sql)
 
         for item in results:
-            [message, encriptedFile] = prepare_mail(sender_email, item, table, date_time)
+            [message, encriptedFile] = prepare_mail(userDataDir, sender_email, item, table, date_time)
             sent = server.sendmail(sender_email, item['email'], message.as_string())
             os.remove(encriptedFile)
 
             if hasattr(sent, 'error'):
                 sql = 'UPDATE "{table}" SET isSent = -1 WHERE  id = {id}'.format(table=table, id=item['id'])
-                exec_query(sql)
+                exec_query(userDataDir, sql)
             else:
                 sentDate = datetime.now()
                 sql = 'UPDATE "{table}" SET isSent = 1, sentDate = "{sentDate}" WHERE  id = {id}'.format(table=table, sentDate=sentDate, id=item['id'])
-                exec_query(sql)
+                exec_query(userDataDir, sql)
                 if (id == 'null'):
                     print(json.dumps(item))
 
@@ -78,4 +78,4 @@ def send_payslip(month, id = 'null'):
         server.quit()
 
 if __name__ == "__main__":
-    send_payslip(sys.argv[1], sys.argv[2]);
+    send_payslip(sys.argv[1], sys.argv[2], sys.argv[3]);

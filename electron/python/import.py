@@ -5,9 +5,9 @@ from utils.db import connect_db
 
 import utils
 
-def import_payslip(month, path):
+def import_payslip(userDataDir, month, path):
     table = month.replace('/', '_')
-    con, cur = connect_db()
+    con, cur = connect_db(userDataDir)
 
     # Truncate table
     cur.execute('''DROP TABLE IF EXISTS "{table}"'''.format(table=table))
@@ -43,4 +43,4 @@ def import_payslip(month, path):
     print('{"data": true}')
 
 if __name__ == '__main__':
-    import_payslip(sys.argv[1], sys.argv[2])
+    import_payslip(sys.argv[1], sys.argv[2], sys.argv[3])
