@@ -1,5 +1,5 @@
 import * as React from "react";
-import { NavLink as NavLinkBase } from "react-router-dom";
+import { NavLink as NavLinkBase, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -22,12 +22,14 @@ const NavLink = React.forwardRef((props, ref) => {
   );
 });
 
-const ResponsiveAppBar = (props) => {
+const AppBarComponent = (props) => {
   const { auth, setAuth } = useApp();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     setAuth(null);
     localStorage.clear();
+    navigate("/");
   };
 
   const {
@@ -95,4 +97,4 @@ const ResponsiveAppBar = (props) => {
     </AppBar>
   );
 };
-export default ResponsiveAppBar;
+export default AppBarComponent;

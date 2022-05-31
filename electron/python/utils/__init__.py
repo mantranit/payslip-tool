@@ -1,12 +1,8 @@
+import math
 import random
 import string
 from datetime import datetime
 from slugify import slugify
-
-def input_date_time():
-    month = input('Nhap thang: ')
-    year = input('Nhap nam: ')
-    return datetime.strptime('/'.join(('1', month, year)), '%d/%m/%Y')
 
 def get_random_string(n):
     return ''.join(random.choices(string.digits, k = n))
@@ -18,27 +14,33 @@ def get_list_words(data):
         data['currentTime']['date_time'].strftime('%m%Y')
     ]
 
+def get_int(value):
+    return int(value) if not math.isnan(value) else 0
+
+def get_float(value):
+    return float(value) if not math.isnan(value) else 0.0
+
 def get_data_row(row, password):
     return {
         'password': password,
-        'email': row['Email'],
-        'fullName': row['Tên'],
-        'workingDays': row['Ngày công thực tế'],
-        'leaveDays': row['Ngày phép đã dùng trong tháng'],
-        'totalWorkingDays': row['Tổng ngày công'],
-        'grossSalary': (row['Tổng thu nhập']),
-        'responsibilityAllowance': (row['Phụ cấp trách nhiệm']),
-        'parkingAllowance': (row['Phí gửi xe']),
-        'bonus': (row['Bonus']),
+        'email': row.get('Email', 'Email'),
+        'fullName': row.get('Tên', 'Name'),
+        'workingDays': get_float(row.get('Ngày công thực tế', 0.0)),
+        'leaveDays': get_float(row.get('Ngày phép đã dùng trong tháng', 0.0)),
+        'totalWorkingDays': get_float(row.get('Tổng ngày công', 0.0)),
+        'grossSalary': get_int(row.get('Tổng thu nhập', 0)),
+        'responsibilityAllowance': get_int(row.get('Phụ cấp trách nhiệm', 0)),
+        'parkingAllowance': get_int(row.get('Phí gửi xe', 0)),
+        'bonus': get_int(row.get('Bonus', 0)),
         'advance': 0,
         'otherAllowance': 0,
-        'overtimePay': (row['Lương ngoài giờ']),
-        'totalSalary': (row['Lương Chính']),
-        'insurance': (row['Trừ tiền BHXH, BHYT, BHTN (10.5% x 4.729.400đ)']),
-        'incomeTax': (row['Tiền thuế TNCN']),
+        'overtimePay': get_int(row.get('Lương ngoài giờ', 0)),
+        'totalSalary': get_int(row.get('Lương Chính', 0)),
+        'insurance': get_int(row.get('Trừ tiền BHXH, BHYT, BHTN (10.5% x 4.729.400đ)', 0)),
+        'incomeTax': get_int(row.get('Tiền thuế TNCN', 0)),
         'refund': 0,
-        'netAmount': (row['Tổng Thực nhận']),
+        'netAmount': get_int(row.get('Tổng Thực nhận', 0)),
         'annualLeave': 0,
-        'remainingLeave': row['Tổng ngày phép còn lại'],
+        'remainingLeave': get_float(row.get('Tổng ngày phép còn lại', 0.0)),
     }
 

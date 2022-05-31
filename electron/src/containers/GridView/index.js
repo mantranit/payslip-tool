@@ -275,7 +275,7 @@ const GridViewContainer = () => {
       month,
       (data) => {
         const row = JSON.parse(data);
-        msg += msg ? `,${row.fullName}` : row.fullName;
+        msg = msg ? `${row.fullName},` + msg : row.fullName;
         setListName(msg);
       },
       (error) => {

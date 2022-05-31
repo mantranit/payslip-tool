@@ -1,9 +1,13 @@
 import os
 import sqlite3
 
-def exec_query(sql):
+def connect_db():
     con = sqlite3.connect(os.getcwd() + '/payslip.db')
     cur = con.cursor()
+    return con, cur
+
+def exec_query(sql):
+    con, cur = connect_db()
 
     cur.execute(sql)
 
@@ -11,8 +15,7 @@ def exec_query(sql):
     con.close()
 
 def exec_select(sql, one=False):
-    con = sqlite3.connect(os.getcwd() + '/payslip.db')
-    cur = con.cursor()
+    con, cur = connect_db()
 
     cur.execute(sql)
     r = [dict((cur.description[i][0], value) \
