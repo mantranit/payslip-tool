@@ -1,5 +1,6 @@
 // 1. Import Modules
 const { MSICreator } = require('electron-wix-msi');
+
 const path = require('path');
 // include fs-extra package
 var fs = require("fs-extra");

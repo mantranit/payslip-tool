@@ -2,7 +2,7 @@ import os
 import sqlite3
 
 def connect_db(userDataDir):
-    con = sqlite3.connect(userDataDir + '/databases/Databases.db')
+    con = sqlite3.connect(userDataDir + '/payslip.db')
     cur = con.cursor()
     return con, cur
 

@@ -15,31 +15,25 @@
     "@mui/material": "^5.8.0",
     "@mui/x-data-grid": "^5.11.1",
     "@mui/x-date-pickers": "^5.0.0-alpha.4",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.2.0",
-    "@testing-library/user-event": "^14.2.0",
-    "electron-is-dev": "^2.0.0",
-    "electron-squirrel-startup": "^1.0.0",
-    "fs-extra": "^10.1.0",
     "moment": "^2.29.3",
     "node-sass": "^7.0.1",
-    "python-shell": "^3.0.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-loading-overlay": "^1.0.1",
     "react-pdf": "^5.7.2",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1"
   },
   "scripts": {
     "dev": "concurrently -k \"set BROWSER=none && npm start\" \"npm:electron\"",
-    "electron": "wait-on tcp:3000 && electron-forge start",
+    "electron": "wait-on tcp:3000 && electron .",
     "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "package": "react-scripts build && electron-forge package",
-    "make": "react-scripts build && electron-forge make",
-    "build": "react-scripts build && electron-forge package && node ./build_installer.js"
+    "depend": "cd build && yarn install",
+    "package": "electron-packager ./build payslip-app --platform=win32 --arch=x64 --out=out --overwrite --asar",
+    "clear": "rimraf build && rimraf out",
+    "make": "npm run clear && npm run build && npm run depend && npm run package && node ./build_installer.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -57,47 +51,17 @@
     ]
   },
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.63",
-    "@electron-forge/maker-deb": "^6.0.0-beta.63",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.63",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
-    "@electron-forge/maker-zip": "^6.0.0-beta.63",
-    "concurrently": "^5.2.0",
+    "concurrently": "^7.2.1",
     "electron": "^9.1.1",
     "electron-devtools-installer": "^3.1.1",
+    "electron-is-dev": "^2.0.0",
+    "electron-packager": "^15.5.1",
+    "electron-squirrel-startup": "^1.0.0",
     "electron-wix-msi": "^4.0.0",
     "exe-icon-extractor": "^1.0.8",
+    "fs-extra": "^10.1.0",
+    "python-shell": "^3.0.1",
+    "rimraf": "^3.0.2",
     "wait-on": "^5.1.0"
-  },
-  "config": {
-    "forge": {
-      "packagerConfig": {
-        "asar": true,
-        "icon": "src/icons/mac/icon.icns",
-        "name": "payslip-app"
-      },
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "payslip-app"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
   }
 }

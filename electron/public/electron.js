@@ -37,7 +37,7 @@ function createWindow() {
   win.loadURL(
     isDev
       ? "http://localhost:3000"
-      : `file://${path.join(__dirname, "../build/index.html")}`
+      : `file://${path.join(__dirname, "/index.html")}`
   );
 
   // Open the DevTools.
@@ -115,7 +115,8 @@ app.whenReady().then(() => {
             { type: "separator" },
             { role: "togglefullscreen" },
           ]
-        : [{ role: "reload" }, { role: "togglefullscreen" }],
+        : [{ role: "reload" },
+        { role: "toggleDevTools" }, { role: "togglefullscreen" }],
     },
   ];
   const menu = Menu.buildFromTemplate(template);
