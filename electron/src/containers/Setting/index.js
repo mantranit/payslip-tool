@@ -11,9 +11,18 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Input from "@mui/material/Input";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
 
 const SettingContainer = () => {
   const { setLoading, showToast } = useApp();
+  const [isShowPassword, setShowPassword] = useState(false);
   const [MAIL_SERVER_HOST, setHost] = useState("");
   const [MAIL_SERVER_PORT, setPort] = useState("");
   const [MAIL_SERVER_ACCOUNT, setEmail] = useState("");
@@ -108,13 +117,30 @@ const SettingContainer = () => {
                 />
               </div>
               <div className="setting-content__row">
-                <TextField
-                  fullWidth
-                  type="text"
-                  label="Password"
-                  value={MAIL_SERVER_PASSWORD}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+                <FormControl fullWidth variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Password
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password"
+                    type={isShowPassword ? "text" : "password"}
+                    label="Password"
+                    value={MAIL_SERVER_PASSWORD}
+                    onChange={(e) => setPassword(e.target.value)}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onMouseUp={() => setShowPassword(!isShowPassword)}
+                          onMouseDown={() => setShowPassword(!isShowPassword)}
+                          edge="end"
+                        >
+                          {isShowPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
               </div>
               <div>
                 <Button
