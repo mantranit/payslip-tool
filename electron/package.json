@@ -1,6 +1,6 @@
 {
   "name": "payslip-app",
-  "description": "A boilerplate template for Electron and Python.",
+  "description": "Payslip using Electron and Python.",
   "author": "Man Tran",
   "version": "0.1.0",
   "main": "public/electron.js",
@@ -31,7 +31,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "depend": "cd build && yarn install",
-    "package": "electron-packager ./build payslip-app --platform=win32 --arch=x64 --out=out --overwrite --asar",
+    "package": "cross-var electron-packager ./build $npm_package_name --platform=win32 --arch=x64 --out=out --overwrite --asar --icon=src/icons/mac/icon.icns",
     "clear": "rimraf build && rimraf out",
     "cpfile": "node ./copyfile.js",
     "artifact": "npm run clear && npm run build && npm run depend && npm run package && npm run cpfile && node ./artifact.js"
@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "concurrently": "^7.2.1",
+    "cross-var": "^1.1.0",
     "electron": "^9.1.1",
     "electron-devtools-installer": "^3.1.1",
     "electron-is-dev": "^2.0.0",
