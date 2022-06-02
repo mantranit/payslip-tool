@@ -25,7 +25,7 @@ function createWindow() {
     minWidth: 1024,
     minHeight: 768,
     title: "Payslip App",
-    icon: path.join(__dirname, "favicon.ico"),
+    icon: path.join(__dirname, "logo192.png"),
     webPreferences: {
       worldSafeExecuteJavaScript: true,
       enableRemoteModule: true,
@@ -39,7 +39,7 @@ function createWindow() {
   win.loadURL(
     isDev
       ? "http://localhost:3000"
-      : `file://${path.join(__dirname, "/index.html")}`
+      : `file://${path.join(__dirname, "index.html")}`
   );
 
   // Open the DevTools.
