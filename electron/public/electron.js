@@ -24,6 +24,8 @@ function createWindow() {
     height: 768,
     minWidth: 1024,
     minHeight: 768,
+    title: "Payslip App",
+    icon: path.join(__dirname, "favicon.ico"),
     webPreferences: {
       worldSafeExecuteJavaScript: true,
       enableRemoteModule: true,
@@ -115,8 +117,7 @@ app.whenReady().then(() => {
             { type: "separator" },
             { role: "togglefullscreen" },
           ]
-        : [{ role: "reload" },
-        { role: "toggleDevTools" }, { role: "togglefullscreen" }],
+        : [{ role: "reload" }, { role: "togglefullscreen" }],
     },
   ];
   const menu = Menu.buildFromTemplate(template);
