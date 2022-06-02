@@ -33,7 +33,7 @@
     "depend": "cd build && yarn install",
     "package": "electron-packager ./build payslip-app --platform=win32 --arch=x64 --out=out --overwrite --asar",
     "clear": "rimraf build && rimraf out",
-    "make": "npm run clear && npm run build && npm run depend && npm run package && node ./build_installer.js"
+    "artifact": "npm run clear && npm run build && npm run depend && npm run package && node ./build_installer.js"
   },
   "eslintConfig": {
     "extends": "react-app"
