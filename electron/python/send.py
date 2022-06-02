@@ -2,25 +2,18 @@ import json
 import smtplib
 import sys
 import os
-from utils import send_mail
 from os.path import exists
 import time
 
 import utils
-from utils import pdf_processor
+from utils import send_mail, pdf_processor, prepare_data
 from utils.db import exec_query, exec_select
 from datetime import datetime
 
 def prepare_mail(userDataDir, sender_email, data, table, date_time):
-    input_data = {
-        'person': data,
-        'currentTime': {
-            'date_time': date_time,
-            'monthString': date_time.strftime('%B'),
-            'monthYear': date_time.strftime('%B, %Y').upper(),
-        }
-    }
-    path = '/'.join((os.getcwd(), 'payslips', date_time.strftime('%Y/%m')))
+    input_data = prepare_data(date_time, data)
+    
+    path = '/'.join((userDataDir, 'payslips', date_time.strftime('%Y/%m')))
     list_name = utils.get_list_words(input_data)
     filename = '__'.join(list_name) + '.pdf'
 

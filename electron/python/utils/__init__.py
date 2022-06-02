@@ -1,7 +1,6 @@
 import math
 import random
 import string
-from datetime import datetime
 from slugify import slugify
 
 def get_random_string(n):
@@ -23,8 +22,8 @@ def get_float(value):
 def get_data_row(row, password):
     return {
         'password': password,
-        'email': row.get('Email', 'Email'),
-        'fullName': row.get('Tên', 'Name'),
+        'email': row.get('Email', ''),
+        'fullName': row.get('Tên', ''),
         'workingDays': get_float(row.get('Ngày công thực tế', 0.0)),
         'leaveDays': get_float(row.get('Ngày phép đã dùng trong tháng', 0.0)),
         'totalWorkingDays': get_float(row.get('Tổng ngày công', 0.0)),
@@ -44,3 +43,19 @@ def get_data_row(row, password):
         'remainingLeave': get_float(row.get('Tổng ngày phép còn lại', 0.0)),
     }
 
+def prepare_data(date_time, data):
+    person = {}
+    for key in data.keys():
+        if isinstance(data[key], int):
+            person[key] = "{:,.0f}".format(data[key])
+        else:
+            person[key] = data[key]
+
+    return {
+        'person': person,
+        'currentTime': {
+            'date_time': date_time,
+            'monthString': date_time.strftime('%B'),
+            'monthYear': date_time.strftime('%B, %Y').upper(),
+        }
+    }

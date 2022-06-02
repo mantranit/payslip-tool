@@ -23,11 +23,14 @@ def import_payslip(userDataDir, month, path):
         PRIMARY KEY("id" AUTOINCREMENT)
     )'''.format(table=table))
 
-    for sheet_name in ['Fulltime', 'Parttime']:
+    xl_excel = pd.ExcelFile(path)
+    for sheet_name in xl_excel.sheet_names:
         read_file = pd.read_excel(path, [sheet_name])
         df = read_file[sheet_name]
         for index, row in df.iterrows():
-            if math.isnan(row.get('STT', math.nan)):
+            if not isinstance(row.get('Email'), str):
+                continue
+            if not isinstance(row.get('Tên'), str):
                 continue
             password = utils.get_random_string(4)
             input_data = utils.get_data_row(row, password)

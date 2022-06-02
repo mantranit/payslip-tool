@@ -1,8 +1,6 @@
 import sys
-import os
-
 import utils
-from utils import pdf_processor
+from utils import pdf_processor, prepare_data
 from utils.db import exec_query, exec_select
 from datetime import datetime
 
@@ -11,15 +9,10 @@ def build_payslip(userDataDir, month, id):
     table = month.replace('/', '_')
     sql = 'SELECT * FROM "{table}" WHERE id = {id}'.format(table=table, id=id)
     results = exec_select(userDataDir, sql, True)
-    input_data = {
-        'person': results,
-        'currentTime': {
-            'date_time': date_time,
-            'monthString': date_time.strftime('%B'),
-            'monthYear': date_time.strftime('%B, %Y').upper(),
-        }
-    }
-    path = '/'.join((os.getcwd(), 'payslips', date_time.strftime('%Y/%m')))
+
+    input_data = prepare_data(date_time, results)
+    
+    path = '/'.join((userDataDir, 'payslips', date_time.strftime('%Y/%m')))
     list_name = utils.get_list_words(input_data)
     filename = '__'.join(list_name) + '.pdf'
 
