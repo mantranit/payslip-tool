@@ -28,7 +28,7 @@ def get_data_row(row, password):
         'workingDays': get_float(row.get('Working days (Include holidays) (1)', 0.0)),
         'leaveDays': get_float(row.get('Leave days (2)', 0.0)),
         'totalWorkingDays': get_float(row.get('Total working days (3) = (1) + (2)', 0.0)),
-        'grossSalary': get_int(row.get('Gross salary (4)', 0)),
+        'grossSalary': get_int(row.get('Income corresponding to actual working days (4)', 0)),
         'responsibilityAllowance': get_int(row.get('Responsibility allowance (5)', 0)),
         'parkingAllowance': get_int(row.get('Parking allowance (6)', 0)),
         'bonus': get_int(row.get('Bonus (7)', 0)),
