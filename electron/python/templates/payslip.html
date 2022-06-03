@@ -26,7 +26,7 @@
           <td align="right">{{ person.fullName }}</td>
         </tr>
         <tr>
-          <td colspan="2">Working days (1)</td>
+          <td colspan="2">Working days (Include holidays) (1)</td>
           <td align="right">{{ person.workingDays }}</td>
         </tr>
         <tr>
@@ -58,7 +58,7 @@
           <td align="right">{{ person.advance }}</td>
         </tr>
         <tr>
-          <td colspan="2">Allowance: Business & other (9)</td>
+          <td colspan="2">Other (9)</td>
           <td align="right">{{ person.otherAllowance }}</td>
         </tr>
         <tr>
@@ -78,8 +78,8 @@
           <td align="right">{{ person.incomeTax }}</td>
         </tr>
         <tr>
-          <td colspan="2">Refund (14)</td>
-          <td align="right">{{ person.refund }}</td>
+          <td colspan="2">Deduct (14)</td>
+          <td align="right">{{ person.deduct }}</td>
         </tr>
         <tr>
           <td colspan="2"><strong>Net Amount (15) = (11) - (12) - (13) - (14)</strong></td>
@@ -91,7 +91,7 @@
           <td align="right">{{ person.annualLeave }}</td>
         </tr>
         <tr>
-          <td>Remaining <em>(includes remaining 2021)</em></td>
+          <td>Leave day <em>(Remaining)</em></td>
           <td align="right">{{ person.remainingLeave }}</td>
         </tr>
       </tbody>

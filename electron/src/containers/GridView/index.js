@@ -216,8 +216,8 @@ const GridViewContainer = () => {
       },
     },
     {
-      field: "refund",
-      headerName: "Refund",
+      field: "deduct",
+      headerName: "Deduct",
       width: 150,
       renderCell: (cellValues) => {
         return formatCurrency(cellValues.value);

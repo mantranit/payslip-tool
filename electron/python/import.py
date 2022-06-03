@@ -14,11 +14,11 @@ def import_payslip(userDataDir, month, path):
     # Create table
     cur.execute('''CREATE TABLE IF NOT EXISTS "{table}" (
         id INTEGER NOT NULL UNIQUE,
-        password TEXT, email TEXT, fullName TEXT, workingDays REAL, leaveDays REAL, 
+        password TEXT, code TEXT, email TEXT, fullName TEXT, workingDays REAL, leaveDays REAL, 
         totalWorkingDays REAL, grossSalary INTEGER, responsibilityAllowance INTEGER, 
         parkingAllowance INTEGER, bonus INTEGER, advance INTEGER, otherAllowance INTEGER, 
         overtimePay INTEGER, totalSalary INTEGER, insurance INTEGER, incomeTax INTEGER, 
-        refund INTEGER, netAmount INTEGER, annualLeave REAL, remainingLeave REAL, 
+        deduct INTEGER, netAmount INTEGER, annualLeave REAL, remainingLeave REAL, 
         pdfFile TEXT, isSent INTEGER, sentDate TEXT,
         PRIMARY KEY("id" AUTOINCREMENT)
     )'''.format(table=table))
@@ -30,12 +30,10 @@ def import_payslip(userDataDir, month, path):
         for index, row in df.iterrows():
             if not isinstance(row.get('Email'), str):
                 continue
-            if not isinstance(row.get('Tên'), str):
-                continue
             password = utils.get_random_string(4)
             input_data = utils.get_data_row(row, password)
             row_value = list(input_data.values())
-            cur.execute('''INSERT INTO "{table}" VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '', 0, '')'''.format(table=table), row_value)
+            cur.execute('''INSERT INTO "{table}" VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '', 0, '')'''.format(table=table), row_value)
     
     # Save (commit) the changes
     con.commit()
