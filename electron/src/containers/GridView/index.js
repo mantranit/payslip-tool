@@ -160,6 +160,14 @@ const GridViewContainer = () => {
       },
     },
     {
+      field: "seniorityBonus",
+      headerName: "Seniority Bonus",
+      width: 150,
+      renderCell: (cellValues) => {
+        return formatCurrency(cellValues.value);
+      },
+    },
+    {
       field: "bonus",
       headerName: "Bonus",
       width: 150,
