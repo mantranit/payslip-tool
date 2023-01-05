@@ -37,10 +37,11 @@ def get_data_row(row, password):
         'otherAllowance': get_int(row.get('Other (10)', 0)),
         'overtimePay': get_int(row.get('Overtime pay (11)', 0)),
         'totalSalary': get_int(row.get('Total salary (12) = (4)+(5)+(6)+(7)+(8)+(9)+(10)+(11)', 0)),
-        'insurance': get_int(row.get('Insurance: Social, health, unemployment (10.5%) (13)', 0)),
+        'insurance': get_int(row.get('Insurance: Social, health, unemployment (10.5% x 4.729.400đ) (13)', 0)),
         'incomeTax': get_int(row.get('Personal Income Tax (14)', 0)),
         'deduct': get_int(row.get('Deduct (15)', 0)),
-        'netAmount': get_int(row.get('Net Amount (16) = (12) - (13) - (14) - (15)', 0)),
+        'salary13th': get_int(row.get('13th Salary (16)', 0)),
+        'netAmount': get_int(row.get('Net Amount (17) = (12) - (13) - (14) - (15) + (16)', 0)),
         'annualLeave': get_float(row.get('Leave day', 0.0)),
         'remainingLeave': get_float(row.get('Leave day (Remaining)', 0.0)),
     }

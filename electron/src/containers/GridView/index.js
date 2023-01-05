@@ -231,6 +231,14 @@ const GridViewContainer = () => {
         return formatCurrency(cellValues.value);
       },
     },
+    {
+      field: "salary13th",
+      headerName: "13th Salary",
+      width: 150,
+      renderCell: (cellValues) => {
+        return formatCurrency(cellValues.value);
+      },
+    },
     { field: "password", headerName: "Password", width: 90, hide: true },
   ]);
 
