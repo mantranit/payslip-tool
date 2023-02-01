@@ -40,8 +40,7 @@ def get_data_row(row, password):
         'insurance': get_int(row.get('Insurance: Social, health, unemployment (10.5% x 4.729.400đ) (13)', 0)),
         'incomeTax': get_int(row.get('Personal Income Tax (14)', 0)),
         'deduct': get_int(row.get('Deduct (15)', 0)),
-        'salary13th': get_int(row.get('13th Salary (16)', 0)),
-        'netAmount': get_int(row.get('Net Amount (17) = (12) - (13) - (14) - (15) + (16)', 0)),
+        'netAmount': get_int(row.get('Net Amount (16) = (12) - (13) - (14) - (15)', 0)),
         'annualLeave': get_float(row.get('Leave day', 0.0)),
         'remainingLeave': get_float(row.get('Leave day (Remaining)', 0.0)),
     }
