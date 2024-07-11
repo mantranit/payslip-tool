@@ -55,6 +55,7 @@ const GridViewContainer = () => {
     },
     { field: "fullName", headerName: "Full Name", width: 250 },
     { field: "email", headerName: "Email", width: 300 },
+    { field: "password", headerName: "Password", width: 90, hide: true },
     {
       field: "pdfFile",
       headerName: "PDF Generated",
@@ -109,137 +110,120 @@ const GridViewContainer = () => {
       width: 200,
       renderCell: (cellValues) => {
         const date = moment(cellValues.value);
-        return date.isValid() ? date.format("H:mm:ss DD/MM/YYYY") : "-";
+        return date.isValid() ? date.format("HH:mm:ss DD/MM/YYYY") : "-";
       },
     },
-    { field: "workingDays", headerName: "Working Days", width: 100 },
-    { field: "leaveDays", headerName: "Leave Days", width: 100 },
     {
-      field: "totalWorkingDays",
-      headerName: "Total Working Days",
-      width: 100,
-      hide: true,
+      field: "standardWorkingDays",
+      headerName: "Standard Working Days",
+      width: 180,
     },
+    { field: "holidays", headerName: "Holidays", width: 100 },
+    { field: "unpaidLeave", headerName: "Unpaid leave", width: 100 },
+    { field: "leaveDays", headerName: "Leave days", width: 100 },
+    { field: "actualWorkingDay", headerName: "Actual Working day", width: 150 },
     {
-      field: "annualLeave",
-      headerName: "Annual Leave",
-      width: 100,
-      hide: true,
+      field: "remainingLeaveDays",
+      headerName: "Remaining leave days",
+      width: 180,
     },
-    { field: "remainingLeave", headerName: "Remaining Leave", width: 100 },
+    { field: "totalWorkingDays", headerName: "Total working days", width: 150 },
     {
-      field: "netAmount",
-      headerName: "Net Amount",
+      field: "basicSalary",
+      headerName: "Basic Salary",
       width: 150,
-      renderCell: (cellValues) => {
-        return formatCurrency(cellValues.value);
-      },
-    },
-    {
-      field: "grossSalary",
-      headerName: "Gross salary",
-      width: 150,
-      renderCell: (cellValues) => {
-        return formatCurrency(cellValues.value);
-      },
+      valueFormatter: (params) => formatCurrency(params.value),
     },
     {
       field: "responsibilityAllowance",
-      headerName: "Responsibility Allowance",
-      width: 150,
-      renderCell: (cellValues) => {
-        return formatCurrency(cellValues.value);
-      },
+      headerName: "Responsibility allowance",
+      width: 180,
+      valueFormatter: (params) => formatCurrency(params.value),
     },
     {
-      field: "parkingAllowance",
-      headerName: "Parking Allowance",
+      field: "petrolAllowace",
+      headerName: "Petrol Allowace",
       width: 150,
-      renderCell: (cellValues) => {
-        return formatCurrency(cellValues.value);
-      },
+      valueFormatter: (params) => formatCurrency(params.value),
+    },
+    {
+      field: "phoneAllowance",
+      headerName: "Phone Allowance",
+      width: 150,
+      valueFormatter: (params) => formatCurrency(params.value),
+    },
+    {
+      field: "lunchAllowance",
+      headerName: "Lunch Allowance",
+      width: 150,
+      valueFormatter: (params) => formatCurrency(params.value),
     },
     {
       field: "seniorityBonus",
       headerName: "Seniority Bonus",
       width: 150,
-      renderCell: (cellValues) => {
-        return formatCurrency(cellValues.value);
-      },
+      valueFormatter: (params) => formatCurrency(params.value),
     },
     {
-      field: "bonus",
-      headerName: "Bonus",
+      field: "performanceBonus",
+      headerName: "Performance Bonus",
       width: 150,
-      renderCell: (cellValues) => {
-        return formatCurrency(cellValues.value);
-      },
+      valueFormatter: (params) => formatCurrency(params.value),
     },
     {
-      field: "advance",
-      headerName: "Advance",
+      field: "overtimeIncome",
+      headerName: "Overtime Income",
       width: 150,
-      renderCell: (cellValues) => {
-        return formatCurrency(cellValues.value);
-      },
+      valueFormatter: (params) => formatCurrency(params.value),
     },
     {
-      field: "otherAllowance",
-      headerName: "Other Allowance",
+      field: "otherBonus",
+      headerName: "Other Bonus",
       width: 150,
-      renderCell: (cellValues) => {
-        return formatCurrency(cellValues.value);
-      },
+      valueFormatter: (params) => formatCurrency(params.value),
     },
     {
-      field: "overtimePay",
-      headerName: "Overtime Pay",
+      field: "otherIncome",
+      headerName: "Other Income",
       width: 150,
-      renderCell: (cellValues) => {
-        return formatCurrency(cellValues.value);
-      },
+      valueFormatter: (params) => formatCurrency(params.value),
     },
     {
-      field: "totalSalary",
-      headerName: "Total Salary",
+      field: "totalIncome",
+      headerName: "Total Income",
       width: 150,
-      renderCell: (cellValues) => {
-        return formatCurrency(cellValues.value);
-      },
+      valueFormatter: (params) => formatCurrency(params.value),
     },
     {
-      field: "insurance",
-      headerName: "Insurance",
+      field: "socialInsurance",
+      headerName: "Social Insurance",
       width: 150,
-      renderCell: (cellValues) => {
-        return formatCurrency(cellValues.value);
-      },
+      valueFormatter: (params) => formatCurrency(params.value),
     },
     {
-      field: "incomeTax",
-      headerName: "IncomeTax",
-      width: 150,
-      renderCell: (cellValues) => {
-        return formatCurrency(cellValues.value);
-      },
+      field: "personalIncomeTax",
+      headerName: "Personal Income Tax",
+      width: 180,
+      valueFormatter: (params) => formatCurrency(params.value),
     },
     {
-      field: "deduct",
-      headerName: "Deduct",
+      field: "othersDeduction",
+      headerName: "Others Deduction",
       width: 150,
-      renderCell: (cellValues) => {
-        return formatCurrency(cellValues.value);
-      },
+      valueFormatter: (params) => formatCurrency(params.value),
     },
     {
-      field: "salary13th",
-      headerName: "13th Salary",
+      field: "totalDeduction",
+      headerName: "Total Deduction",
       width: 150,
-      renderCell: (cellValues) => {
-        return formatCurrency(cellValues.value);
-      },
+      valueFormatter: (params) => formatCurrency(params.value),
     },
-    { field: "password", headerName: "Password", width: 90, hide: true },
+    {
+      field: "netAmount",
+      headerName: "Net Amount",
+      width: 150,
+      valueFormatter: (params) => formatCurrency(params.value),
+    },
   ]);
 
   let [listName, setListName] = useState("");
