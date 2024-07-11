@@ -73,6 +73,7 @@ const GridViewContainer = () => {
           </Tooltip>
         );
       },
+      hide: true,
     },
     {
       field: "isSent",
