@@ -1,5 +1,5 @@
 import sys
-import math
+import locale # don't remove this line
 import pandas as pd
 from utils.db import connect_db
 
@@ -52,7 +52,6 @@ def import_payslip(userDataDir, month, path):
         read_file = pd.read_excel(path, [sheet_name])
         df = read_file[sheet_name]
         for index, row in df.iterrows():
-            print(row)
             if not isinstance(row.get('Email'), str):
                 continue
             password = utils.get_random_string(4)

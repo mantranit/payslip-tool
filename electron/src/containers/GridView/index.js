@@ -58,7 +58,7 @@ const GridViewContainer = () => {
     { field: "password", headerName: "Password", width: 90, hide: true },
     {
       field: "pdfFile",
-      headerName: "PDF Generated",
+      headerName: "PDF",
       headerAlign: "center",
       align: "center",
       width: 100,
@@ -73,7 +73,6 @@ const GridViewContainer = () => {
           </Tooltip>
         );
       },
-      hide: true,
     },
     {
       field: "isSent",
