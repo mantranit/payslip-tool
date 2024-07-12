@@ -34,13 +34,14 @@ const AppBarComponent = (props) => {
 
   const {
     pages = [
+      { label: "Setting", to: "/setting" },
       ...(auth
         ? [
-            { label: "Grid view", to: "/grid-view" },
+            { label: "Sheet", to: "/grid-view" },
             { label: "List view", to: "/list-view" },
-            { label: "Reselect", click: handleLogout },
+            { label: "Select", click: handleLogout },
           ]
-        : [{ label: "Import", to: "/" }]),
+        : [{ label: "Select", to: "/" }]),
     ],
   } = props;
 
@@ -78,20 +79,9 @@ const AppBarComponent = (props) => {
             </React.Fragment>
           ))}
         </Box>
-        <Typography variant="h6" sx={{ flexGrow: 2 }}>
-          {auth}
-        </Typography>
+        <Typography variant="h6" sx={{ flexGrow: 1 }}></Typography>
         <Box sx={{ flexGrow: 0, mx: 2 }}>
-          <Button
-            component={NavLink}
-            to="/setting"
-            sx={{ my: 2, color: "white", display: "block" }}
-            activeClassName={({ isActive }) =>
-              isActive ? "menu-item-active" : ""
-            }
-          >
-            Setting
-          </Button>
+          <Typography variant="h6">{auth}</Typography>
         </Box>
       </Toolbar>
     </AppBar>
