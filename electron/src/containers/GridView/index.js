@@ -56,7 +56,7 @@ const GridViewContainer = () => {
     { field: "fullName", headerName: "Full Name", width: 250 },
     { field: "position", headerName: "Position", width: 250 },
     { field: "email", headerName: "Email", width: 300 },
-    { field: "password", headerName: "Password", width: 90, hide: true },
+    { field: "password", headerName: "Password", width: 90 },
     {
       field: "pdfFile",
       headerName: "PDF",
@@ -74,7 +74,6 @@ const GridViewContainer = () => {
           </Tooltip>
         );
       },
-      hide: true,
     },
     {
       field: "isSent",
@@ -297,7 +296,7 @@ const GridViewContainer = () => {
           Send All
         </Button>
       </Box>
-      <div className="grid-content">
+      <div className="grid-content" style={{ marginTop: -16 }}>
         <DataGrid
           rows={rows}
           columns={columns}
