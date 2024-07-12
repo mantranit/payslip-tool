@@ -15,7 +15,6 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Input from "@mui/material/Input";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
@@ -35,12 +34,12 @@ const SettingContainer = () => {
         setHost(
           data.filter((row) => row.key === "MAIL_SERVER_HOST").length > 0
             ? data.filter((row) => row.key === "MAIL_SERVER_HOST")[0].value
-            : "mail.watasolutions.com"
+            : ""
         );
         setPort(
           data.filter((row) => row.key === "MAIL_SERVER_PORT").length > 0
             ? data.filter((row) => row.key === "MAIL_SERVER_PORT")[0].value
-            : "587"
+            : ""
         );
         setEmail(
           data.filter((row) => row.key === "MAIL_SERVER_ACCOUNT").length > 0

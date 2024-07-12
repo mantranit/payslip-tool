@@ -40,6 +40,7 @@ def send_payslip(userDataDir, month, id = 'null'):
     # Log in to server using secure context and send email
     # context = ssl.create_default_context()
     with smtplib.SMTP(server_host, int(server_port)) as server:
+        server.connect(server_host, int(server_port))
         server.login(sender_email, password)
 
         results = []

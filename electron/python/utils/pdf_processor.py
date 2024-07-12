@@ -3,7 +3,7 @@ import pathlib
 import pdfkit
 import utils
 from jinja2 import Template
-from PyPDF2 import PdfFileReader, PdfFileWriter
+from PyPDF2 import PdfReader, PdfWriter
 
 def get_template_pdf():
     with open(os.getcwd() + "/python/templates/payslip.html", 'r', encoding='UTF-8') as file:
@@ -27,10 +27,10 @@ def set_password(path, filename, filenameTmp, data):
     inputFile = '/'.join((path, filename))
     outputFile = '/'.join((path, filenameTmp))
     with open(inputFile, "rb") as in_file:
-        input_pdf = PdfFileReader(in_file)
+        input_pdf = PdfReader(in_file)
 
-        output_pdf = PdfFileWriter()
-        output_pdf.appendPagesFromReader(input_pdf)
+        output_pdf = PdfWriter()
+        output_pdf.append_pages_from_reader(input_pdf)
         output_pdf.encrypt(data['person']['password'])
 
         with open(outputFile, "wb") as out_file:

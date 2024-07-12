@@ -13,7 +13,7 @@ def get_template_email():
 
 def build_email_template(path, filename, data, sender_email):
     jinja2_template = Template(get_template_email())
-    subject = "PAYSLIP " + data['currentTime']['date_time'].strftime('%m.%Y')
+    subject = "PAYSLIP_WTS_" + data['currentTime']['date_time'].strftime('%m.%Y')
     body = jinja2_template.render(**data)
     receiver_email = data['person']['email']
 
