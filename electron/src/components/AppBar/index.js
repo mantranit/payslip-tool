@@ -38,8 +38,8 @@ const AppBarComponent = (props) => {
       ...(auth
         ? [
             { label: "Sheet", to: "/grid-view" },
-            { label: "List view", to: "/list-view" },
-            { label: "Select", click: handleLogout },
+            { label: "Details", to: "/list-view" },
+            { label: "Logout", click: handleLogout },
           ]
         : [{ label: "Select", to: "/" }]),
     ],

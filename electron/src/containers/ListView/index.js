@@ -13,7 +13,7 @@ import TreeItem from "@mui/lab/TreeItem";
 
 const ListViewContainer = () => {
   pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
-  const { auth: month, setLoading, showToast} = useApp();
+  const { auth: month, setLoading, showToast } = useApp();
   const [file, setFile] = useState("");
   const [scale, setScale] = useState(1.4);
   const [rows, setRows] = useState([]);
@@ -57,7 +57,11 @@ const ListViewContainer = () => {
                   key={row.id}
                   className="tree-item"
                   nodeId={row.id.toString()}
-                  label={row.fullName}
+                  label={
+                    <>
+                      {row.fullName} <small>({row.email})</small>
+                    </>
+                  }
                 />
               );
             })}
