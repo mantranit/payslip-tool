@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import Button from "@mui/material/Button";
 import Layout from "../../components/Layout";
 import "./styles.scss";
@@ -54,6 +54,7 @@ const GridViewContainer = () => {
       },
     },
     { field: "fullName", headerName: "Full Name", width: 250 },
+    { field: "position", headerName: "Position", width: 250 },
     { field: "email", headerName: "Email", width: 300 },
     { field: "password", headerName: "Password", width: 90, hide: true },
     {

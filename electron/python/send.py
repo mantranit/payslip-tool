@@ -20,10 +20,9 @@ def prepare_mail(userDataDir, sender_email, data, table, date_time):
     list_name.append('encript')
     filenameEncript = '__'.join(list_name) + '.pdf'
 
-    if (not exists('/'.join((path, filename)))):
-        pdfFile = pdf_processor.generate(path, filename, input_data)
-        sql = 'UPDATE "{table}" SET pdfFile = "{pdfFile}" WHERE  id = {id}'.format(table=table, pdfFile=pdfFile, id=data['id'])
-        exec_query(userDataDir, sql)
+    pdfFile = pdf_processor.generate(path, filename, input_data)
+    sql = 'UPDATE "{table}" SET pdfFile = "{pdfFile}" WHERE  id = {id}'.format(table=table, pdfFile=pdfFile, id=data['id'])
+    exec_query(userDataDir, sql)
 
     pdf_processor.set_password(path, filename, filenameEncript, input_data)
 

@@ -25,6 +25,7 @@ def get_data_row(row, password):
         'code': row.get('Code', ''),
         'email': row.get('Email', ''),
         'fullName': row.get('Name (*)', ''),
+        'position': row.get('Position', ''),
         'standardWorkingDays': get_float(row.get('Standard Working day', 0.0)),
         'holidays': get_float(row.get('Holidays', 0.0)),
         'unpaidLeave': get_float(row.get('Unpaid leave', 0.0)),

@@ -18,6 +18,7 @@ def import_payslip(userDataDir, month, path):
                 code TEXT, 
                 email TEXT, 
                 fullName TEXT, 
+                position TEXT, 
                 standardWorkingDays REAL,
                 holidays REAL,
                 unpaidLeave REAL,
@@ -57,7 +58,7 @@ def import_payslip(userDataDir, month, path):
             password = utils.get_random_string(4)
             input_data = utils.get_data_row(row, password)
             row_value = list(input_data.values())
-            cur.execute('''INSERT INTO "{table}" VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '', 0, '')'''.format(table=table), row_value)
+            cur.execute('''INSERT INTO "{table}" VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '', 0, '')'''.format(table=table), row_value)
     
     # Save (commit) the changes
     con.commit()
