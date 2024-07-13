@@ -30,7 +30,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "depend": "cd build && yarn install",
+    "depend": "cd build && npm install",
     "package": "cross-var electron-packager ./build $npm_package_name --platform=win32 --arch=x64 --out=out --overwrite --asar --icon=src/icons/mac/icon.icns",
     "clear": "rimraf build && rimraf out",
     "cpfile": "node ./copyfile.js",
@@ -52,6 +52,8 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@electron-forge/cli": "^7.4.0",
     "concurrently": "^7.2.1",
     "cross-var": "^1.1.0",
     "electron": "^9.1.1",
