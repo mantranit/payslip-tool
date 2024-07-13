@@ -8,8 +8,7 @@ import Layout from "../../components/Layout";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import Fab from "@mui/material/Fab";
-import TreeView from "@mui/lab/TreeView";
-import TreeItem from "@mui/lab/TreeItem";
+import { ListItem } from "@mui/material";
 
 const ListViewContainer = () => {
   pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
@@ -30,11 +29,11 @@ const ListViewContainer = () => {
     );
   }, []);
 
-  const handleNodeSelect = (event, nodeIds) => {
+  const handleNodeSelect = (nodeId) => {
     setLoading(true);
     window.appAPI.preview(
       month,
-      nodeIds,
+      nodeId,
       (pdfFile) => {
         setFile(pdfFile);
         setLoading(false);
@@ -50,22 +49,22 @@ const ListViewContainer = () => {
     <Layout>
       <div className="preview">
         <div className="preview-list">
-          <TreeView onNodeSelect={handleNodeSelect}>
-            {rows.map((row) => {
-              return (
-                <TreeItem
-                  key={row.id}
-                  className="tree-item"
-                  nodeId={row.id.toString()}
-                  label={
-                    <>
-                      {row.fullName} <small>({row.email})</small>
-                    </>
-                  }
-                />
-              );
-            })}
-          </TreeView>
+          {rows.map((row) => {
+            return (
+              <ListItem
+                key={row.id}
+                className="tree-item"
+                onClick={() => handleNodeSelect(row.id)}
+              >
+                <div>
+                  <p>{row.fullName}</p>
+                  <p>
+                    <small>({row.email})</small>
+                  </p>
+                </div>
+              </ListItem>
+            );
+          })}
         </div>
         <div className="preview-detail">
           {file ? (
