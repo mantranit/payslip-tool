@@ -6,7 +6,6 @@ from utils.db import connect_db
 import utils
 
 def import_payslip(userDataDir, month, path):
-    print(userDataDir);
     table = month.replace('/', '_')
     con, cur = connect_db(userDataDir)
 

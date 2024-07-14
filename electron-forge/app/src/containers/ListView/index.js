@@ -31,7 +31,7 @@ const ListViewContainer = () => {
 
   const handleNodeSelect = (nodeId) => {
     setLoading(true);
-    window.appAPI.preview(
+    window.appAPI.details(
       month,
       nodeId,
       (pdfFile) => {

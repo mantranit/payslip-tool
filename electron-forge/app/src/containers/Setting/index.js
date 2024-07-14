@@ -28,29 +28,45 @@ const SettingContainer = () => {
   const [MAIL_SERVER_PASSWORD, setPassword] = useState("");
 
   useEffect(() => {
-    window.appAPI.fetch(
-      `SELECT * FROM setting`,
+    window.appAPI.checkTableExist(
+      "setting",
       (data) => {
-        setHost(
-          data.filter((row) => row.key === "MAIL_SERVER_HOST").length > 0
-            ? data.filter((row) => row.key === "MAIL_SERVER_HOST")[0].value
-            : ""
-        );
-        setPort(
-          data.filter((row) => row.key === "MAIL_SERVER_PORT").length > 0
-            ? data.filter((row) => row.key === "MAIL_SERVER_PORT")[0].value
-            : ""
-        );
-        setEmail(
-          data.filter((row) => row.key === "MAIL_SERVER_ACCOUNT").length > 0
-            ? data.filter((row) => row.key === "MAIL_SERVER_ACCOUNT")[0].value
-            : ""
-        );
-        setPassword(
-          data.filter((row) => row.key === "MAIL_SERVER_PASSWORD").length > 0
-            ? data.filter((row) => row.key === "MAIL_SERVER_PASSWORD")[0].value
-            : ""
-        );
+        if (data.length > 0) {
+          window.appAPI.fetch(
+            `SELECT * FROM setting`,
+            (data) => {
+              setHost(
+                data.filter((row) => row.key === "MAIL_SERVER_HOST").length > 0
+                  ? data.filter((row) => row.key === "MAIL_SERVER_HOST")[0]
+                      .value
+                  : ""
+              );
+              setPort(
+                data.filter((row) => row.key === "MAIL_SERVER_PORT").length > 0
+                  ? data.filter((row) => row.key === "MAIL_SERVER_PORT")[0]
+                      .value
+                  : ""
+              );
+              setEmail(
+                data.filter((row) => row.key === "MAIL_SERVER_ACCOUNT").length >
+                  0
+                  ? data.filter((row) => row.key === "MAIL_SERVER_ACCOUNT")[0]
+                      .value
+                  : ""
+              );
+              setPassword(
+                data.filter((row) => row.key === "MAIL_SERVER_PASSWORD")
+                  .length > 0
+                  ? data.filter((row) => row.key === "MAIL_SERVER_PASSWORD")[0]
+                      .value
+                  : ""
+              );
+            },
+            (error) => {
+              console.log("setting fetch error", error.toString());
+            }
+          );
+        }
       },
       (error) => {
         console.log("setting fetch error", error.toString());

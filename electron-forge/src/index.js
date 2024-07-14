@@ -1,6 +1,14 @@
-const { app, BrowserWindow, dialog, Menu, protocol } = require("electron");
+const {
+  app,
+  BrowserWindow,
+  dialog,
+  Menu,
+  protocol,
+  ipcMain,
+} = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
+const { PythonShell } = require("python-shell");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -17,11 +25,13 @@ const createWindow = () => {
     title: "PAYSLIP WTS",
     icon: path.join(__dirname, "logo.png"),
     webPreferences: {
-      contextIsolation: true,
-      enableRemoteModule: true,
+      // contextIsolation: true,
+      // enableRemoteModule: true,
       preload: path.join(__dirname, "preload.js"),
       webSecurity: false,
-      worldSafeExecuteJavaScript: true,
+      // worldSafeExecuteJavaScript: true,
+      // sandbox: true,
+      // nodeIntegration: true,
     },
   });
 
@@ -65,6 +75,56 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  ipcMain.handle("selectFile", async () => {
+    return dialog
+      .showOpenDialog({ properties: ["openFile"] })
+      .then((response) => {
+        if (response.canceled) {
+          return "";
+        }
+        return response.filePaths[0];
+      });
+  });
+
+  ipcMain.handle("import", async (event, month, file) => {
+    return PythonShell.run(`${process.cwd()}/python/import.py`, {
+      args: [app.getPath("userData"), month, file],
+    });
+  });
+
+  ipcMain.handle("fetch", async (event, sql, oneRow = false) => {
+    return PythonShell.run(`${process.cwd()}/python/fetch.py`, {
+      args: [app.getPath("userData"), sql, oneRow],
+    });
+  });
+
+  ipcMain.handle("details", async (event, month, id) => {
+    return PythonShell.run(`${process.cwd()}/python/pdf.py`, {
+      args: [app.getPath("userData"), month, id],
+    });
+  });
+
+  ipcMain.handle("sendMail", async (event, month, id) => {
+    return PythonShell.run(`${process.cwd()}/python/send.py`, {
+      args: [app.getPath("userData"), month, id],
+    });
+  });
+
+  ipcMain.handle("sendMailAll", async (event, month) => {
+    let pyshell = new PythonShell(`${process.cwd()}/python/send.py`, {
+      pythonOptions: ["-u"],
+      args: [app.getPath("userData"), month, null],
+    });
+    return pyshell;
+  });
+
+  ipcMain.handle("saveSetting", async (event, data) => {
+    return PythonShell.run(`${process.cwd()}/python/setting.py`, {
+      args: [app.getPath("userData"), data],
+    });
+  });
+
+  // init window
   createWindow();
 
   const isMac = process.platform === "darwin";
