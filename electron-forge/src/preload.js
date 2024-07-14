@@ -5,8 +5,11 @@ const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("appAPI", {
   selectFile: (callback) => {
-    ipcRenderer.invoke("selectFile").then((result) => {
-      callback(result);
+    ipcRenderer.invoke("selectFile").then((response) => {
+      if (response.canceled) {
+        return "";
+      }
+      return callback(response.filePaths[0]);
     });
   },
   import: (month, file, callbackSuccess, callbackError) => {

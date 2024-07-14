@@ -75,42 +75,35 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  ipcMain.handle("selectFile", async () => {
-    return dialog
-      .showOpenDialog({ properties: ["openFile"] })
-      .then((response) => {
-        if (response.canceled) {
-          return "";
-        }
-        return response.filePaths[0];
-      });
+  ipcMain.handle("selectFile", () => {
+    return dialog.showOpenDialog({ properties: ["openFile"] });
   });
 
-  ipcMain.handle("import", async (event, month, file) => {
+  ipcMain.handle("import", (event, month, file) => {
     return PythonShell.run(`${process.cwd()}/python/import.py`, {
       args: [app.getPath("userData"), month, file],
     });
   });
 
-  ipcMain.handle("fetch", async (event, sql, oneRow = false) => {
+  ipcMain.handle("fetch", (event, sql, oneRow = false) => {
     return PythonShell.run(`${process.cwd()}/python/fetch.py`, {
       args: [app.getPath("userData"), sql, oneRow],
     });
   });
 
-  ipcMain.handle("details", async (event, month, id) => {
+  ipcMain.handle("details", (event, month, id) => {
     return PythonShell.run(`${process.cwd()}/python/pdf.py`, {
       args: [app.getPath("userData"), month, id],
     });
   });
 
-  ipcMain.handle("sendMail", async (event, month, id) => {
+  ipcMain.handle("sendMail", (event, month, id) => {
     return PythonShell.run(`${process.cwd()}/python/send.py`, {
       args: [app.getPath("userData"), month, id],
     });
   });
 
-  ipcMain.handle("sendMailAll", async (event, month) => {
+  ipcMain.handle("sendMailAll", (event, month) => {
     let pyshell = new PythonShell(`${process.cwd()}/python/send.py`, {
       pythonOptions: ["-u"],
       args: [app.getPath("userData"), month, null],
@@ -118,7 +111,7 @@ app.whenReady().then(() => {
     return pyshell;
   });
 
-  ipcMain.handle("saveSetting", async (event, data) => {
+  ipcMain.handle("saveSetting", (event, data) => {
     return PythonShell.run(`${process.cwd()}/python/setting.py`, {
       args: [app.getPath("userData"), data],
     });
