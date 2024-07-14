@@ -1,0 +1,44 @@
+.preview {
+  display: flex;
+}
+.preview-list {
+  width: 260px;
+  height: calc(100vh - 68px);
+  overflow: auto;
+}
+.preview-detail {
+  width: calc(100% - 260px);
+  overflow: auto;
+}
+
+.preview-content{
+  height: calc(100vh - 68px);
+  overflow: auto;
+  display: flex;
+  background-color: rgba(#525659, 0.3);
+  justify-content: center;
+  &.content-center{
+    align-items: center;
+  }
+}
+
+.preview-floating{
+  position: fixed;
+  bottom: 20px;
+  right: 36px;
+  display: grid;
+  gap: 16px;
+}
+
+.tree-item {
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  cursor: pointer;
+  &:nth-child(odd) {
+    background-color: #efefef;
+  }
+  > div {
+    p {
+      margin: 0;
+    }
+  }
+}

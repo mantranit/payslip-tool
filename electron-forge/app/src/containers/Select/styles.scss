@@ -1,0 +1,13 @@
+.select{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 68px);
+  width: 100vw;
+}
+.select-content{
+  width: 320px;
+  &__row{
+    margin-bottom: 20px;
+  }
+}

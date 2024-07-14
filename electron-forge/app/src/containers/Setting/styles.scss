@@ -1,0 +1,13 @@
+.setting{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 68px);
+  width: 100vw;
+}
+.setting-content{
+  width: 400px;
+  &__row{
+    margin-bottom: 20px;
+  }
+}
