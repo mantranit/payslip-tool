@@ -12,7 +12,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "artifact": "concurrently -k \"npm:build\" \"npm:package\""
+    "artifact": "npm run build && npm run make"
   },
   "devDependencies": {
     "@electron-forge/cli": "^7.4.0",
