@@ -26,16 +26,15 @@
   "scripts": {
     "dev": "concurrently -k \"set BROWSER=none && npm start\" \"npm:electron\"",
     "electron": "wait-on tcp:3000 && electron .",
-    "start": "electron-forge start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "depend": "cd build && npm install",
-    "package": "electron-forge package",
+    "package": "cross-var electron-packager ./build $npm_package_name --platform=win32 --arch=x64 --out=out --overwrite --asar --icon=src/icons/mac/icon.icns",
     "clear": "rimraf build && rimraf out",
     "cpfile": "node ./copyfile.js",
-    "artifact": "npm run clear && npm run build && npm run depend && npm run package && npm run cpfile && node ./artifact.js",
-    "make": "electron-forge make"
+    "artifact": "npm run clear && npm run build && npm run depend && npm run package && npm run cpfile && node ./artifact.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -55,13 +54,6 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@electron-forge/cli": "^7.4.0",
-    "@electron-forge/maker-deb": "^7.4.0",
-    "@electron-forge/maker-rpm": "^7.4.0",
-    "@electron-forge/maker-squirrel": "^7.4.0",
-    "@electron-forge/maker-zip": "^7.4.0",
-    "@electron-forge/plugin-auto-unpack-natives": "^7.4.0",
-    "@electron-forge/plugin-fuses": "^7.4.0",
-    "@electron/fuses": "^1.8.0",
     "concurrently": "^7.2.1",
     "cross-var": "^1.1.0",
     "electron": "^9.1.1",
