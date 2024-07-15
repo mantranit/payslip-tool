@@ -1,13 +1,13 @@
-.setting{
+.setting {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 68px);
+  height: calc(100vh - 69px);
   width: 100vw;
 }
-.setting-content{
+.setting-content {
   width: 400px;
-  &__row{
+  &__row {
     margin-bottom: 20px;
   }
 }

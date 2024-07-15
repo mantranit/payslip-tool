@@ -25,13 +25,8 @@ const createWindow = () => {
     title: "PAYSLIP WTS",
     icon: path.join(__dirname, "logo.png"),
     webPreferences: {
-      // contextIsolation: true,
-      // enableRemoteModule: true,
       preload: path.join(__dirname, "preload.js"),
       webSecurity: false,
-      // worldSafeExecuteJavaScript: true,
-      // sandbox: true,
-      // nodeIntegration: true,
     },
   });
 

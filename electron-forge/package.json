@@ -10,9 +10,9 @@
     "electron": "electron-forge start",
     "start": "concurrently -k \"npm:app\" \"npm:electron\"",
     "package": "electron-forge package",
-    "make": "set DEBUG=electron-packager && electron-forge make",
+    "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "artifact": ""
+    "artifact": "concurrently -k \"npm:build\" \"npm:package\""
   },
   "devDependencies": {
     "@electron-forge/cli": "^7.4.0",
@@ -25,7 +25,6 @@
     "@electron/fuses": "^1.8.0",
     "concurrently": "^8.2.2",
     "electron": "^31.2.0",
-    "electron-is-dev": "^2.0.0",
     "fs-extra": "^11.2.0",
     "react-scripts": "^5.0.1",
     "wait-on": "^7.2.0"
@@ -34,6 +33,7 @@
   "author": "Man Tran",
   "license": "MIT",
   "dependencies": {
+    "electron-is-dev": "^2.0.0",
     "electron-squirrel-startup": "^1.0.1",
     "python-shell": "^5.0.0"
   }

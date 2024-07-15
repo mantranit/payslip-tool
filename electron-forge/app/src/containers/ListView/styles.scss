@@ -3,7 +3,7 @@
 }
 .preview-list {
   width: 260px;
-  height: calc(100vh - 68px);
+  height: calc(100vh - 69px);
   overflow: auto;
 }
 .preview-detail {
@@ -11,18 +11,18 @@
   overflow: auto;
 }
 
-.preview-content{
-  height: calc(100vh - 68px);
+.preview-content {
+  height: calc(100vh - 69px);
   overflow: auto;
   display: flex;
   background-color: rgba(#525659, 0.3);
   justify-content: center;
-  &.content-center{
+  &.content-center {
     align-items: center;
   }
 }
 
-.preview-floating{
+.preview-floating {
   position: fixed;
   bottom: 20px;
   right: 36px;

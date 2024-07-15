@@ -93,4 +93,6 @@ out/
 
 # Python
 __pycache__
-src/python
+src/static
+src/index.html
+src/asset-manifest.json
