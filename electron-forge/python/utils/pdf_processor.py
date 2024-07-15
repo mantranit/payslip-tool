@@ -6,7 +6,7 @@ from jinja2 import Template
 from PyPDF2 import PdfReader, PdfWriter
 
 def get_template_pdf():
-    with open(os.getcwd() + "/python/templates/payslip.html", 'r', encoding='UTF-8') as file:
+    with open(pathlib.Path(__file__).parent / "../templates/payslip.html", 'r', encoding='UTF-8') as file:
         return file.read()
 
 def generate(path, filename, data):

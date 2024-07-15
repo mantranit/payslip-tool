@@ -1,5 +1,6 @@
 import os
 import smtplib
+import pathlib
 from datetime import datetime
 from email import encoders
 from email.mime.base import MIMEBase
@@ -8,7 +9,7 @@ from email.mime.text import MIMEText
 from jinja2 import Template
 
 def get_template_email():
-    with open(os.getcwd() + "/python/templates/email.html", 'r', encoding='UTF-8') as file:
+    with open(pathlib.Path(__file__).parent / "../templates/email.html", 'r', encoding='UTF-8') as file:
         return file.read()
 
 def build_email_template(path, filename, data, sender_email):
