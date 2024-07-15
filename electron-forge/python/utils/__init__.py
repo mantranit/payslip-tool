@@ -19,9 +19,9 @@ def get_int(value):
 def get_float(value):
     return float(value) if not math.isnan(value) else 0.0
 
-def get_data_row(row, password):
+def get_data_row(row):
     return {
-        'password': password,
+        'password': str(row.get('Password', '')).split('.')[0],
         'code': row.get('Code', ''),
         'email': row.get('Email', ''),
         'fullName': row.get('Name (*)', ''),

@@ -55,8 +55,7 @@ def import_payslip(userDataDir, month, path):
         for index, row in df.iterrows():
             if not isinstance(row.get('Email'), str):
                 continue
-            password = utils.get_random_string(4)
-            input_data = utils.get_data_row(row, password)
+            input_data = utils.get_data_row(row)
             row_value = list(input_data.values())
             cur.execute('''INSERT INTO "{table}" VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '', 0, '')'''.format(table=table), row_value)
     
