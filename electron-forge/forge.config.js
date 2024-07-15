@@ -1,12 +1,12 @@
 const { FusesPlugin } = require("@electron-forge/plugin-fuses");
 const { FuseV1Options, FuseVersion } = require("@electron/fuses");
 const path = require("path");
-const fs = require("fs-extra");
 
 module.exports = {
   packagerConfig: {
     asar: true,
     extraResource: [path.resolve(__dirname, "./python")],
+    icon: path.resolve(__dirname, "./src/images/icon.png"),
   },
   rebuildConfig: {},
   makers: [
@@ -15,24 +15,15 @@ module.exports = {
       config: {
         language: 1033,
         manufacturer: "Man Tran",
+        icon: path.resolve(__dirname, "./src/images/icon.ico"),
       },
     },
-    // {
-    //   name: "@electron-forge/maker-squirrel",
-    //   config: {},
-    // },
-    // {
-    //   name: "@electron-forge/maker-zip",
-    //   platforms: ["darwin"],
-    // },
-    // {
-    //   name: "@electron-forge/maker-deb",
-    //   config: {},
-    // },
-    // {
-    //   name: "@electron-forge/maker-rpm",
-    //   config: {},
-    // },
+    {
+      name: "@electron-forge/maker-dmg",
+      config: {
+        icon: path.resolve(__dirname, "./src/images/icon.icns"),
+      },
+    },
   ],
   plugins: [
     {

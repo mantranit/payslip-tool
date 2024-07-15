@@ -22,7 +22,7 @@ const createWindow = () => {
     height: 768,
     minWidth: 1024,
     minHeight: 768,
-    icon: path.join(__dirname, "logo.png"),
+    icon: path.resolve(__dirname, "./images/icon.png"),
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       webSecurity: false,
