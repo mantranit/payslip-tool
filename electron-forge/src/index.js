@@ -103,7 +103,16 @@ app.whenReady().then(() => {
       pythonOptions: ["-u"],
       args: [app.getPath("userData"), month, null],
     });
-    return pyshell;
+    pyshell.on("message", function (message) {
+      event.sender.send("sendMailAllSuccess", message);
+    });
+    pyshell.end(function (err, code, signal) {
+      if (err) {
+        event.sender.send("sendMailAllError", err);
+      } else {
+        event.sender.send("sendMailAllFinished", code, signal);
+      }
+    });
   });
 
   ipcMain.handle("saveSetting", (event, data) => {

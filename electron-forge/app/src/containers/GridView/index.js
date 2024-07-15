@@ -241,6 +241,20 @@ const GridViewContainer = () => {
 
   useEffect(() => {
     fetchData();
+    let msg = "";
+    window.appAPI.onPythonEvent("sendMailAllSuccess", (data) => {
+      const row = JSON.parse(data);
+      msg = msg ? `${row.fullName},` + msg : row.fullName;
+      setListName(msg);
+    });
+    window.appAPI.onPythonEvent("sendMailAllError", (error) => {
+      showToast(error.message);
+    });
+    window.appAPI.onPythonEvent("sendMailAllFinished", (code, signal) => {
+      setLoading(false);
+      fetchData();
+      setListName("");
+    });
   }, []);
 
   useEffect(() => {
@@ -270,23 +284,7 @@ const GridViewContainer = () => {
   const handleSendAll = () => {
     setLoading(true);
     setListName("");
-    let msg = "";
-    window.appAPI.sendMailAll(
-      month,
-      (data) => {
-        const row = JSON.parse(data);
-        msg = msg ? `${row.fullName},` + msg : row.fullName;
-        setListName(msg);
-      },
-      (error) => {
-        showToast(error.message);
-      },
-      (code, signal) => {
-        setLoading(false);
-
-        fetchData();
-      }
-    );
+    window.appAPI.sendMailAll(month);
   };
 
   return (

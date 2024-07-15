@@ -67,18 +67,8 @@ contextBridge.exposeInMainWorld("appAPI", {
         callbackError(err);
       });
   },
-  sendMailAll: (month, callbackSuccess, callbackError, callbackFinished) => {
-    ipcRenderer
-      .invoke("sendMailAll", month)
-      .on("message", function (message) {
-        callbackSuccess(message);
-      })
-      .end(function (err, code, signal) {
-        if (err) {
-          callbackError(err);
-        }
-        callbackFinished(code, signal);
-      });
+  sendMailAll: (month) => {
+    ipcRenderer.invoke("sendMailAll", month);
   },
   saveSetting: (data, callbackSuccess, callbackError) => {
     ipcRenderer
@@ -89,5 +79,15 @@ contextBridge.exposeInMainWorld("appAPI", {
       .catch((err) => {
         callbackError(err);
       });
+  },
+  onPythonEvent: (channel, func) => {
+    let validChannels = [
+      "sendMailAllSuccess",
+      "sendMailAllError",
+      "sendMailAllFinished",
+    ];
+    if (validChannels.includes(channel)) {
+      ipcRenderer.on(channel, (event, ...args) => func(...args));
+    }
   },
 });
