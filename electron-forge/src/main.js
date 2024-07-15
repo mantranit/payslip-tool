@@ -22,20 +22,15 @@ const createWindow = () => {
     height: 768,
     minWidth: 1024,
     minHeight: 768,
-    title: "PAYSLIP WTS",
     icon: path.join(__dirname, "logo.png"),
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       webSecurity: false,
     },
   });
 
   // and load the index.html of the app.
-  if (isDev) {
-    mainWindow.loadURL("http://localhost:3000");
-  } else {
-    mainWindow.loadURL(`file://${path.join(__dirname, "index.html")}`);
-  }
+  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
   if (isDev) {
@@ -163,11 +158,6 @@ app.whenReady().then(() => {
   ];
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
-
-  protocol.registerFileProtocol("file", (request, callback) => {
-    const pathname = request.url.replace("file:///", "");
-    callback(pathname);
-  });
 
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.

@@ -1,20 +1,19 @@
 {
-  "name": "payslip-wts",
-  "productName": "PayslipWTS",
+  "name": "with-python",
+  "productName": "with-python",
   "version": "1.0.0",
   "description": "My Electron application description",
-  "main": "src/index.js",
+  "main": ".webpack/main",
   "scripts": {
-    "app": "cd app && npm start",
-    "build": "cd app && npm run build",
-    "electron": "electron-forge start",
-    "start": "concurrently -k \"npm:app\" \"npm:electron\"",
+    "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "artifact": "npm run build && npm run make"
+    "lint": "echo \"No linting configured\""
   },
   "devDependencies": {
+    "@babel/core": "^7.24.9",
+    "@babel/preset-react": "^7.24.7",
     "@electron-forge/cli": "^7.4.0",
     "@electron-forge/maker-deb": "^7.4.0",
     "@electron-forge/maker-rpm": "^7.4.0",
@@ -22,19 +21,41 @@
     "@electron-forge/maker-zip": "^7.4.0",
     "@electron-forge/plugin-auto-unpack-natives": "^7.4.0",
     "@electron-forge/plugin-fuses": "^7.4.0",
+    "@electron-forge/plugin-webpack": "^7.4.0",
     "@electron/fuses": "^1.8.0",
-    "concurrently": "^8.2.2",
-    "electron": "^31.2.0",
-    "fs-extra": "^11.2.0",
-    "react-scripts": "^5.0.1",
-    "wait-on": "^7.2.0"
+    "@vercel/webpack-asset-relocator-loader": "1.7.3",
+    "babel-loader": "^9.1.3",
+    "css-loader": "^6.0.0",
+    "electron": "31.2.0",
+    "node-loader": "^2.0.0",
+    "sass": "^1.77.8",
+    "sass-loader": "^14.2.1",
+    "style-loader": "^3.0.0"
   },
   "keywords": [],
-  "author": "Man Tran",
+  "author": {
+    "name": "Man Tran",
+    "email": "tranduyminhman@gmail.com"
+  },
   "license": "MIT",
   "dependencies": {
+    "@date-io/moment": "^2.14.0",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.8.0",
+    "@mui/lab": "^5.0.0-alpha.83",
+    "@mui/material": "^5.8.0",
+    "@mui/x-data-grid": "^5.11.1",
+    "@mui/x-date-pickers": "^5.0.0-alpha.4",
+    "date-fns": "^2.30.0",
     "electron-is-dev": "^2.0.0",
     "electron-squirrel-startup": "^1.0.1",
-    "python-shell": "^5.0.0"
+    "moment": "^2.29.3",
+    "python-shell": "^5.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-pdf": "^5.7.2",
+    "react-router-dom": "^6.3.0",
+    "web-vitals": "^2.1.4"
   }
 }
