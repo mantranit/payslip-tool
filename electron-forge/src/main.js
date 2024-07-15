@@ -65,36 +65,38 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  const resourcesPath = isDev ? process.cwd() : process.resourcesPath;
+
   ipcMain.handle("selectFile", () => {
     return dialog.showOpenDialog({ properties: ["openFile"] });
   });
 
   ipcMain.handle("import", (event, month, file) => {
-    return PythonShell.run(`${process.cwd()}/python/import.py`, {
+    return PythonShell.run(`${resourcesPath}/python/import.py`, {
       args: [app.getPath("userData"), month, file],
     });
   });
 
   ipcMain.handle("fetch", (event, sql, oneRow = false) => {
-    return PythonShell.run(`${process.cwd()}/python/fetch.py`, {
+    return PythonShell.run(`${resourcesPath}/python/fetch.py`, {
       args: [app.getPath("userData"), sql, oneRow],
     });
   });
 
   ipcMain.handle("details", (event, month, id) => {
-    return PythonShell.run(`${process.cwd()}/python/pdf.py`, {
+    return PythonShell.run(`${resourcesPath}/python/pdf.py`, {
       args: [app.getPath("userData"), month, id],
     });
   });
 
   ipcMain.handle("sendMail", (event, month, id) => {
-    return PythonShell.run(`${process.cwd()}/python/send.py`, {
+    return PythonShell.run(`${resourcesPath}/python/send.py`, {
       args: [app.getPath("userData"), month, id],
     });
   });
 
   ipcMain.handle("sendMailAll", (event, month) => {
-    let pyshell = new PythonShell(`${process.cwd()}/python/send.py`, {
+    let pyshell = new PythonShell(`${resourcesPath}/python/send.py`, {
       pythonOptions: ["-u"],
       args: [app.getPath("userData"), month, null],
     });
@@ -111,7 +113,7 @@ app.whenReady().then(() => {
   });
 
   ipcMain.handle("saveSetting", (event, data) => {
-    return PythonShell.run(`${process.cwd()}/python/setting.py`, {
+    return PythonShell.run(`${resourcesPath}/python/setting.py`, {
       args: [app.getPath("userData"), data],
     });
   });

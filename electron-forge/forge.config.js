@@ -6,19 +6,9 @@ const fs = require("fs-extra");
 module.exports = {
   packagerConfig: {
     asar: true,
+    extraResource: [path.resolve(__dirname, "./python")],
   },
   rebuildConfig: {},
-  hooks: {
-    postPackage: async (forgeConfig, { outputPaths }) => {
-      const PYTHON_DIR = path.resolve(__dirname, "./python");
-      const PYTHON_DES_DIR = path.resolve(`${outputPaths}/python`);
-      fs.copy(PYTHON_DIR, PYTHON_DES_DIR, function (err) {
-        if (err) {
-          console.error(err);
-        }
-      });
-    },
-  },
   makers: [
     {
       name: "@electron-forge/maker-wix",
