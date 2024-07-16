@@ -6,7 +6,7 @@ module.exports = {
   packagerConfig: {
     asar: true,
     extraResource: [path.resolve(__dirname, "./python")],
-    icon: path.resolve(__dirname, "./src/images/icon.png"),
+    icon: path.resolve(__dirname, "./src/images/icon"),
   },
   rebuildConfig: {},
   makers: [
