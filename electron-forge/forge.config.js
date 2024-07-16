@@ -5,8 +5,13 @@ const path = require("path");
 module.exports = {
   packagerConfig: {
     asar: true,
-    extraResource: [path.resolve(__dirname, "./python")],
-    icon: path.resolve(__dirname, "./src/images/icon"),
+    extraResource: [
+      path.resolve(__dirname, "./python"),
+      path.resolve(__dirname, "./src/icons/electron.ico"),
+      path.resolve(__dirname, "./src/icons/electron.icns"),
+      path.resolve(__dirname, "./src/icons/electron.png"),
+    ],
+    icon: path.resolve(__dirname, "./src/icons/electron"),
   },
   rebuildConfig: {},
   makers: [
@@ -15,13 +20,13 @@ module.exports = {
       config: {
         language: 1033,
         manufacturer: "Man Tran",
-        icon: path.resolve(__dirname, "./src/images/icon.ico"),
+        icon: path.resolve(__dirname, "./src/icons/electron.ico"),
       },
     },
     {
       name: "@electron-forge/maker-dmg",
       config: {
-        icon: path.resolve(__dirname, "./src/images/icon.icns"),
+        icon: path.resolve(__dirname, "./src/icons/electron.icns"),
       },
     },
   ],
