@@ -70,7 +70,7 @@ const ListViewContainer = () => {
           {file ? (
             <div className="preview-content">
               <div>
-                <Document file={file} onLoadSuccess={() => {}}>
+                <Document file={`file://${file}`} onLoadSuccess={() => {}}>
                   <Page pageNumber={1} scale={scale} />
                 </Document>
               </div>
