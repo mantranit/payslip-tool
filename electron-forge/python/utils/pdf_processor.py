@@ -17,7 +17,10 @@ def generate(path, filename, data):
     jinja2_template = Template(get_template_pdf())
     rendered = jinja2_template.render(**data)
 
-    pdf = pdfkit.from_string(rendered, pathFile)
+    config = pdfkit.configuration()
+    if os.name == 'posix':
+        config = pdfkit.configuration(wkhtmltopdf='/usr/local/bin/wkhtmltopdf')
+    pdf = pdfkit.from_string(rendered, pathFile, configuration=config)
     if pdf:
         return inputFile
     else:
